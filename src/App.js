@@ -11,7 +11,7 @@ class App extends Component {
     this.state = { //qualsiasi cosa possa cambiare ed influenzare l'aspetto della App
     displayedPkmon: [],
     searchfield: '',
-    perPage: 16,
+    perPage: 6,
     fonte: '',
     viewMode: 'artwork'
     }

@@ -52,6 +52,7 @@ const Card = ({ number, name, type01, type02, weight, height, offArt, sprite, vi
         background: `${bgSetter(type01, type02)}`,
         width: '100%',
         height: 'auto',
+        maxWidth: '310px'
       }}
     >
       <div
