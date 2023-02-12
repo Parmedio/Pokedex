@@ -11,7 +11,8 @@ class App extends Component {
     this.state = { //qualsiasi cosa possa cambiare ed influenzare l'aspetto della App
     displayedPkmon: [],
     searchfield: '',
-    perPage: 6,
+    perPage: 8
+    ,
     fonte: '',
     viewMode: 'artwork'
     }
@@ -54,6 +55,8 @@ class App extends Component {
       const Weight = obj2.weight;
       const OffArt = obj2.sprites.other['official-artwork'].front_default;
       const Sprite = obj2.sprites.front_default;
+
+      console.log('sto caricando il pkmon nr ' + Order)
       
       targetList.push({
         number: Order,
