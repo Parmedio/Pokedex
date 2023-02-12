@@ -14,7 +14,7 @@ const CardList = ({ filteredPkmon, viewMode }) => {
       }}
     > 
       {filteredPkmon
-        .filter(pkmon => pkmon.number < 1009)
+        //.filter(pkmon => pkmon.number < 1009)
         .map((pkmon, i) => {
           return (
             <Card 

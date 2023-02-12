@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import CardList from './CardList';
 //import PageNav from './PageNav';
-import Bookmarks from './GenBookmarks';
+import GenBookmarks from './GenBookmarks';
 import './index.css';
 
 class App extends Component {    
@@ -9,7 +9,7 @@ class App extends Component {
     super()
     this.state = {
     displayedPkmon: [],
-    perPage: 5,
+    perPage: 12,
     viewMode: 'artwork',
     PokedexPosition : 1
     }
@@ -28,7 +28,7 @@ class App extends Component {
 
   loadPkmon = async (targetList) => {
     let counter = this.state.PokedexPosition;
-    while (targetList.length < this.state.perPage && (counter >= 0 && counter <= 1007)) {
+    while (targetList.length < this.state.perPage ) { //&& (counter >= 1 && counter <= 1008)
       const res = await fetch(`https://pokeapi.co/api/v2/pokemon/${counter}/`);
       const obj = await res.json();
       const Order = obj.id;
@@ -64,34 +64,30 @@ class App extends Component {
     this.setState({ PokedexPosition: counter });
   };
 
-  setPokedexPosition = (desiredPosition) => {
-    this.setState({ PokedexPosition: desiredPosition })
+
+  setPokedexPosition = (event) => {
+    let newPosition = event.target.getAttribute('name');
+    let ceil = 1009 - this.state.perPage
+    if (newPosition >= 1 && newPosition <= ceil) {
+      return newPosition
+    } else if (newPosition < 1) {
+      return 1
+    } else if (newPosition > ceil) {
+      return ceil
+    }
   }
-
-
-
-
-
-
-  grabSource = (event) => {
-    let newSource = event.target.getAttribute('name');
-    let currentSource = this.state.fonte;
-    let position = Number(newSource.slice(newSource.indexOf('set=') + 4, newSource.indexOf('&limit')))
-    return position >= 0 && position <= 1007 ? newSource : currentSource;
-  };
-
+  
   updateContent = () => {
     let raccolta = [];
-    this.loadPkmon(this.state.fonte, raccolta)
+    this.loadPkmon(raccolta)
     .then(() => this.setState({displayedPkmon: raccolta}));
   };
-
-  updateDash = async (grabSource = () => {}) => {
-    const newSource = await grabSource();
-    this.setState({fonte: newSource}, () => {
+  
+  updateCardList = (event) => {
+    this.setState({ PokedexPosition: this.setPokedexPosition(event) }, () => {
       this.updateContent();
     });
-  };
+  };  
 
   render() {
     //console.log('render --------------> current viewMode: ' + this.state.viewMode)
@@ -113,10 +109,7 @@ class App extends Component {
             perPage={this.state.perPage}
           /> */}
         </div>
-        <Bookmarks
-          perPage={this.state.perPage}
-          changePage={(event) => this.updateDash(() => this.grabSource(event))}
-        />
+        <GenBookmarks updateCardList={this.updateCardList}/>
         <CardList filteredPkmon={filteredPkmon} viewMode={this.state.viewMode}/>
       </div>
     );
