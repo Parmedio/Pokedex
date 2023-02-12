@@ -1,21 +1,20 @@
 import React from 'react';
 
-const PageNav = ({ changePage, direction, perPage, fonte }) => {
-  let link;
+const PageNav = ({ changePage, direction, currentPosition, span }) => {
+  let nextPokedexPosition;
   let imgDir;
-  //console.log('PageNav ------------> resulting position: ' + position);
   if (direction === 'next') {
-    link = `A`;
+    nextPokedexPosition = currentPosition;
     imgDir = '▶️';
   } else {
-    link = `B`;
+    nextPokedexPosition = currentPosition - 2*span;
     imgDir = '◀️';
   }
 
   return(
     <div className='pv2'> 
       <button
-        name={link}
+        name={nextPokedexPosition}
         className='ma0 grow'
         style={{
           minWidth: '80px', height: '80px',

@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import CardList from './CardList';
-//import PageNav from './PageNav';
+import PageNav from './PageNav';
 import GenBookmarks from './GenBookmarks';
 import './index.css';
 
@@ -97,20 +97,23 @@ class App extends Component {
     const filteredPkmon = this.state.displayedPkmon
     return(
       <div className='tc'>
-        <h1 className='mh0 mt4 mb0 grow' onClick={this.viewModeSwitch}> Pkdex </h1>
-        <div style={{ display: 'flex', justifyContent: 'space-around', flexWrap: 'wrap' }}>
-          {/* <PageNav
-            changePage={(event) => this.updateDash(() => this.grabSource(event))}
-            direction='previous'
-            perPage={this.state.perPage}
-          />
+        <h1 className='mh0 mt4 mb0 grow' onClick={this.viewModeSwitch}> Pokedex </h1>
+        <div style={{ display: 'flex', justifyContent: 'space-around' }}>
           <PageNav
-            changePage={(event) => this.updateDash(() => this.grabSource(event))} 
+            changePage={this.updateCardList}
+            direction='previous'
+            currentPosition={this.state.PokedexPosition}
+            span={this.state.perPage}
+          />
+          <GenBookmarks updateCardList={this.updateCardList}/>
+          <PageNav
+            changePage={this.updateCardList}
             direction='next'
-            perPage={this.state.perPage}
-          /> */}
+            currentPosition={this.state.PokedexPosition}
+            span={this.state.perPage}
+          />
         </div>
-        <GenBookmarks updateCardList={this.updateCardList}/>
+        
         <CardList filteredPkmon={filteredPkmon} viewMode={this.state.viewMode}/>
       </div>
     );
