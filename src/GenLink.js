@@ -1,15 +1,17 @@
 import React from 'react';
 
-const GenLink = ({ btnText, updateCardList }) => {
+const GenLink = ({ btnText, GenStartAt, updateCardList }) => {
   return(
     <button
       onClick={updateCardList}
-      className= 'bw0 fw3 grow' //bg-white
+      className= 'fw8 bw2 tc grow bg-light-gray ba b--moon-gray'
       style={{
-        width: '60px',
-        margin: '0px 1px 2px 1px'
+        width: 'auto',
+        padding: '5px 10px 5px 10px',
+        margin: '3px',
+        borderRadius: '18px'
       }}
-      name={btnText}
+      name={GenStartAt}
     >
       {btnText}
     </button>

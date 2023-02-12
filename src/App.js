@@ -9,7 +9,7 @@ class App extends Component {
     super()
     this.state = {
     displayedPkmon: [],
-    perPage: 12,
+    perPage: 6,
     viewMode: 'artwork',
     PokedexPosition : 1
     }
@@ -28,7 +28,7 @@ class App extends Component {
 
   loadPkmon = async (targetList) => {
     let counter = this.state.PokedexPosition;
-    while (targetList.length < this.state.perPage ) { //&& (counter >= 1 && counter <= 1008)
+    while (targetList.length < this.state.perPage ) {
       const res = await fetch(`https://pokeapi.co/api/v2/pokemon/${counter}/`);
       const obj = await res.json();
       const Order = obj.id;
@@ -65,16 +65,17 @@ class App extends Component {
   };
 
 
-  setPokedexPosition = (event) => {
-    let newPosition = event.target.getAttribute('name');
-    let ceil = 1009 - this.state.perPage
-    if (newPosition >= 1 && newPosition <= ceil) {
-      return newPosition
-    } else if (newPosition < 1) {
-      return 1
-    } else if (newPosition > ceil) {
-      return ceil
-    }
+  setPokedexPosition = (event) => { // DA RIVEDERE PERCHÉ POI HO ANCHE POKEMON SPECIALI 10K
+    // let newPosition = event.target.getAttribute('name');
+    // let ceil = 1009 - this.state.perPage
+    // if (newPosition >= 1 && newPosition <= ceil) {
+    //   return newPosition
+    // } else if (newPosition < 1) {
+    //   return 1
+    // } else if (newPosition > ceil) {
+    //   return ceil
+    // }
+    return event.target.getAttribute('name');
   }
   
   updateContent = () => {

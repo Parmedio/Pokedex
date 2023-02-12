@@ -1,7 +1,8 @@
 import React from 'react';
 import GenLink from './GenLink';
 
-const GenBookmarks = ({ updateCardList, perPage }) => {
+const GenBookmarks = ({ updateCardList }) => {
+
   const setBookmark = (number) => {
     switch (number) {
       case 1:
@@ -13,15 +14,15 @@ const GenBookmarks = ({ updateCardList, perPage }) => {
       case 4:
         return 387;
       case 5:
-        return 495;
+        return 494;
       case 6:
         return 650;
       case 7:
-        return 810;
+        return 722;
       case 8:
-        return 906;
+        return 810;
       case 9:
-        return 1;
+        return 906;
       default:
         return undefined;
     }
@@ -32,24 +33,26 @@ const GenBookmarks = ({ updateCardList, perPage }) => {
     hyperlinks.push(
       <GenLink
         key={i}
-        btnText={setBookmark(i)}
+        btnText={i}
+        GenStartAt={setBookmark(i)}
         updateCardList={updateCardList}
       />
     );
   }
   return(
     <div style={{
-      display: 'inlineFlex',
-      flexDirection: 'column',
-      // display: 'grid',
-      // justifyItems: 'center',
-      // gridTemplateColumns: 'repeat( auto-fit, minmax(72px, 1fr) )',
-      // gridTemplateRows: '',
-      // gridGap: '5px 5px',
-      // gridAutoFlow: 'row'
+      display: 'flex',
+      flexDirection: 'row',
+      justifyContent: 'center'
       }}
     >
       {hyperlinks}
+      <GenLink
+        key={10}
+        btnText='special'
+        GenStartAt= '10001'
+        updateCardList={updateCardList}
+      />
     </div>
   );
 }
