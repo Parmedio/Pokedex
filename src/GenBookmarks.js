@@ -1,13 +1,12 @@
 import React from 'react';
-import Hyperlink from './Hyperlink';
+import GenLink from './GenLink';
 
-const Bookmarks = ({ changePage, perPage }) => {
+const GenBookmarks = ({ changePage, perPage }) => {
   let hyperlinks = [];
   for (let i = 0; i < 8; i++) {
     hyperlinks.push(
-      <Hyperlink
+      <GenLink
         key={i}
-        link={`https://pokeapi.co/api/v2/pokemon?offset=${i*perPage}&limit=${perPage}`}
         btnText={i+1}
         changePage={changePage}
       />
@@ -30,4 +29,4 @@ const Bookmarks = ({ changePage, perPage }) => {
   );
 }
 
-export default Bookmarks
+export default GenBookmarks

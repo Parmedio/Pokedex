@@ -1,9 +1,8 @@
 import React from 'react';
 
-const PageHyperlink = ({ link, btnText, changePage }) => {
+const GenLink = ({ btnText, changePage }) => {
   return(
     <button
-      name={link}
       onClick={changePage}
       className= 'bw0 fw3 grow' //bg-white
       style={{
@@ -16,4 +15,4 @@ const PageHyperlink = ({ link, btnText, changePage }) => {
   );
 }
 
-export default PageHyperlink
+export default GenLink

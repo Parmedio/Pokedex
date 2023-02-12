@@ -3,12 +3,12 @@ import React from 'react';
 const PageNav = ({ changePage, direction, perPage, fonte }) => {
   let link;
   let imgDir;
-  const position = Number(fonte.slice(fonte.indexOf('set=') + 4, fonte.indexOf('&limit')));
+  //console.log('PageNav ------------> resulting position: ' + position);
   if (direction === 'next') {
-    link = `https://pokeapi.co/api/v2/pokemon?offset=${position + Number(perPage)}&limit=${perPage}`;
+    link = `A`;
     imgDir = '▶️';
   } else {
-    link = `https://pokeapi.co/api/v2/pokemon?offset=${position - Number(perPage)}&limit=${perPage}`;
+    link = `B`;
     imgDir = '◀️';
   }
 
