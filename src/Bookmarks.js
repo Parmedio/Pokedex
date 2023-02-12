@@ -3,13 +3,12 @@ import Hyperlink from './Hyperlink';
 
 const Bookmarks = ({ changePage, perPage }) => {
   let hyperlinks = [];
-  const nrPage = Math.ceil(1008/perPage)
-  for (let i = 0; i < nrPage; i++) {
+  for (let i = 0; i < 8; i++) {
     hyperlinks.push(
       <Hyperlink
         key={i}
         link={`https://pokeapi.co/api/v2/pokemon?offset=${i*perPage}&limit=${perPage}`}
-        number={`${i*perPage + 1}-${String(i*perPage +perPage).slice(-2)}`}
+        btnText={i+1}
         changePage={changePage}
       />
     );

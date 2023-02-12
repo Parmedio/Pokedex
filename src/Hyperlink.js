@@ -1,6 +1,6 @@
 import React from 'react';
 
-const PageHyperlink = ({ link, number, changePage }) => {
+const PageHyperlink = ({ link, btnText, changePage }) => {
   return(
     <button
       name={link}
@@ -11,7 +11,7 @@ const PageHyperlink = ({ link, number, changePage }) => {
         margin: '0px 1px 2px 1px'
       }}
     >
-      {number}
+      {btnText}
     </button>
   );
 }

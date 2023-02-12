@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import SearchBox from './SearchBox';
 import CardList from './CardList';
 import PageNav from './PageNav';
 import Bookmarks from './Bookmarks';
@@ -10,9 +9,7 @@ class App extends Component {
     super()
     this.state = { //qualsiasi cosa possa cambiare ed influenzare l'aspetto della App
     displayedPkmon: [],
-    searchfield: '',
-    perPage: 8
-    ,
+    perPage: 12,
     fonte: '',
     viewMode: 'artwork'
     }
@@ -71,10 +68,6 @@ class App extends Component {
     }
   };
 
-  onSearchChange = (event) => {
-    this.setState({searchfield: event.target.value});
-  };
-
   grabSource = (event) => {
     let newSource = event.target.getAttribute('name');
     let currentSource = this.state.fonte;
@@ -99,9 +92,7 @@ class App extends Component {
     //console.log('render --------------> current viewMode: ' + this.state.viewMode)
     //console.log('render -----------------> current fonte: ' + this.state.fonte)
     //console.log('render ---------------> pkm list lenght: ' + this.state.displayedPkmon.length)
-    const filteredPkmon = this.state.displayedPkmon.filter(currentValue => {
-      return currentValue.name.toLowerCase().includes(this.state.searchfield.toLowerCase());
-    })
+    const filteredPkmon = this.state.displayedPkmon
     return(
       <div className='tc'>
         <h1 className='mh0 mt4 mb0 grow' onClick={this.viewModeSwitch}> Pkdex </h1>
@@ -112,7 +103,6 @@ class App extends Component {
             perPage={this.state.perPage}
             fonte={this.state.fonte}
           />
-          <SearchBox searchChange={this.onSearchChange}/>
           <PageNav
             changePage={(event) => this.updateDash(() => this.grabSource(event))} 
             direction='next'
