@@ -3,7 +3,7 @@ let displayedPkmon = [];
 let perPage =  6;
 let cursor = 0;
 
-const loadPkmon = async (targetList) => {
+const loadPkmonz = async (targetList) => {
   while (targetList.length < perPage && (cursor >= 0 && cursor <= 1007)) {
     cursor++
     const res = await fetch(`https://pokeapi.co/api/v2/pokemon/${cursor}/`);

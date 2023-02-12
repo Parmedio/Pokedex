@@ -11,14 +11,15 @@ class App extends Component {
     displayedPkmon: [],
     perPage: 12,
     fonte: '',
-    viewMode: 'artwork'
+    viewMode: 'artwork',
+    cursor : 0
     }
   }
 
   componentDidMount() {
     let raccolta = []
     let origin = 'https://pokeapi.co/api/v2/pokemon?offset=0&limit='
-    this.loadPkmon(origin + this.state.perPage, raccolta)
+    this.loadPkmonz(raccolta) //origin + this.state.perPage, 
     .then(() => this.setState({displayedPkmon: raccolta}))
     .then(() => this.setState({fonte: `${origin}${this.state.perPage}`}));
     //console.log('compDidMount ------------> current fonte: ' + this.state.fonte);
@@ -29,6 +30,43 @@ class App extends Component {
     this.state.viewMode === 'artwork' ? this.setState({viewMode: 'pixel'}) : this.setState({viewMode: 'artwork'})
     //console.log('eseguito viewModeSwitch')
     //console.log(this.state.viewMode)
+  };
+
+  loadPkmonz = async (targetList) => {
+    let counter = this.state.cursor;
+    while (targetList.length < this.state.perPage && (counter >= 0 && counter <= 1007)) {
+      counter++;
+      const res = await fetch(`https://pokeapi.co/api/v2/pokemon/${counter}/`);
+      const obj = await res.json();
+      const Order = obj.id;
+      const Name = obj.name;
+      const Type01 = obj.types[0].type.name;
+      let Type02 = '' 
+      try {
+      Type02 = obj.types[1].type.name;
+      }
+      catch {
+      Type02 = '';
+      }
+      const Height = obj.height;
+      const Weight = obj.weight;
+      const OffArt = obj.sprites.other['official-artwork'].front_default;
+      const Sprite = obj.sprites.front_default;
+  
+      console.log('sto caricando il pkmon nr ' + Order)
+      
+      targetList.push({
+      number: Order,
+      name: Name,
+      type01: Type01,
+      type02: Type02,
+      height: Height,
+      weight: Weight,
+      offArt: OffArt,
+      sprite: Sprite
+      },)
+    }
+    this.setState({ cursor: counter });
   };
 
   loadPkmon = async (url, targetList) => {
@@ -90,8 +128,9 @@ class App extends Component {
 
   render() {
     //console.log('render --------------> current viewMode: ' + this.state.viewMode)
-    //console.log('render -----------------> current fonte: ' + this.state.fonte)
+    console.log('render -----------------> current fonte: ' + this.state.fonte)
     //console.log('render ---------------> pkm list lenght: ' + this.state.displayedPkmon.length)
+    console.log('render ----------------> current cursor: ' + this.state.cursor)
     const filteredPkmon = this.state.displayedPkmon
     return(
       <div className='tc'>
