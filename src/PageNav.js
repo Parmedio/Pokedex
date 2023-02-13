@@ -6,9 +6,11 @@ const PageNav = ({ changePage, direction, currentPosition, span }) => {
   if (direction === 'next') {
     nextPokedexPosition = currentPosition;
     imgDir = '▶'; //▶️
+    console.log('PageNav --------> nextPosition proposal: ' + nextPokedexPosition)
   } else {
     nextPokedexPosition = currentPosition - 2*span;
     imgDir = '◀'; //◀️
+    console.log('PageNav --------> prevPosition proposal: ' + nextPokedexPosition)
   }
 
   return(

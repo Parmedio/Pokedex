@@ -1,41 +1,25 @@
-const detectGen = () => { // DA FAREEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE
-  console.log('ho calcolato la gen del pkmn nr ')
-}
+const createOrderedArray = () => {
+  var array1 = [];
+  var array2 = [];
 
-
-
-
-const setPokedexPosition = (event) => {
-  let newPosition = event.target.getAttribute('name');
-  let ceil = 1009 - this.state.perPage
-  if (newPosition >= 1 && newPosition <= ceil) {
-    return newPosition
-  } else if (newPosition < 1) {
-    return 1
-  } else if (newPosition > ceil) {
-    return ceil
+  for (var i = 1; i <= 1008; i++) {
+    array1.push(i);
   }
+
+  for (var j = 10001; j <= 10263; j++) {
+    array2.push(j);
+  }
+
+  var combinedArray = array1.concat(array2);
+  combinedArray.sort((a, b) => a - b);
+
+  return combinedArray;
 }
 
-const updateContent = () => {
-  let raccolta = [];
-  this.loadPkmon(raccolta)
-  .then(() => this.setState({displayedPkmon: raccolta}));
-};
+let orderedArray = createOrderedArray();
 
-const updateDash = () => {
-  setPokedexPosition();
-  this.setState({ PokedexPosition: newPokedexPosition }, () => {
-    this.updateContent();
-  });
-};
+const getPkNumberAtIndex = (index) => {
+  return orderedArray[index];
+}
 
-const CCCupdateDash = async (grabSource = () => {}) => {
-  this.setState({fonte: await grabSource()}, () => {
-    this.updateContent();
-  });
-};
-
-
-
-changePage={(event) => this.updateDash(() => this.grabSource(event))}
+getPkNumberAtIndex(1009)

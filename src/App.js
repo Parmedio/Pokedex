@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, startTransition } from 'react';
 import CardList from './CardList';
 import PageNav from './PageNav';
 import GenBookmarks from './GenBookmarks';
@@ -11,8 +11,32 @@ class App extends Component {
     displayedPkmon: [],
     perPage: 12,
     viewMode: 'artwork',
-    PokedexPosition : 1
+    PokedexIndPos : 0 //index
     }
+  }
+
+  createOrderedArray = () => {
+    var array1 = [];
+    var array2 = [];
+  
+    for (var i = 1; i <= 1008; i++) {
+      array1.push(i);
+    }
+  
+    for (var j = 10001; j <= 10263; j++) {
+      array2.push(j);
+    }
+  
+    var combinedArray = array1.concat(array2);
+    combinedArray.sort((a, b) => a - b);
+  
+    return combinedArray;
+  }
+
+  orderedArray = this.createOrderedArray();
+
+  getPkNumberAtIndex = (index) => {
+    return this.orderedArray[index];
   }
 
   componentDidMount() {
@@ -27,9 +51,12 @@ class App extends Component {
   };
 
   loadPkmon = async (targetList) => {
-    let counter = this.state.PokedexPosition;
+    let counter = 0
+    let startingIndex = this.state.PokedexIndPos
+    let currentIndex = startingIndex
     while (targetList.length < this.state.perPage ) {
-      const res = await fetch(`https://pokeapi.co/api/v2/pokemon/${counter}/`);
+      let pokemonNr = this.getPkNumberAtIndex(currentIndex)
+      const res = await fetch(`https://pokeapi.co/api/v2/pokemon/${pokemonNr}/`);
       const obj = await res.json();
       const Order = obj.id;
       const Name = obj.name;
@@ -46,7 +73,7 @@ class App extends Component {
       const OffArt = obj.sprites.other['official-artwork'].front_default;
       const Sprite = obj.sprites.front_default;
   
-      console.log('sto caricando il pkmon nr ' + Order)
+      console.log('sto caricando il pkmon nr ' + counter)
       
       targetList.push({
         number: Order,
@@ -60,21 +87,13 @@ class App extends Component {
       },)
 
       counter++;
+      currentIndex = startingIndex + counter;
     }
-    this.setState({ PokedexPosition: counter });
+    this.setState({ PokedexIndPos: currentIndex });
   };
 
-  setPokedexPosition = (event) => { // DA RIVEDERE PERCHÉ POI HO ANCHE POKEMON SPECIALI 10K
-    let newPosition = event.target.getAttribute('name');
-    let ceil = 1009 - this.state.perPage
-    if (newPosition >= 1 && newPosition <= ceil) {
-      return newPosition
-    } else if (newPosition < 1) {
-      return 1
-    } else if (newPosition > ceil) {
-      return ceil
-    }
-    //return event.target.getAttribute('name');
+  setPokedexIndPos = (event) => {
+    return event.target.getAttribute('name')//comunqune devi metter limite inferiore e superiore
   }
   
   updateContent = () => {
@@ -84,7 +103,7 @@ class App extends Component {
   };
   
   updateCardList = (event) => {
-    this.setState({ PokedexPosition: this.setPokedexPosition(event) }, () => {
+    this.setState({ PokedexIndPos: this.setPokedexIndPos(event) }, () => {
       this.updateContent();
     });
   };  
@@ -92,7 +111,7 @@ class App extends Component {
   render() {
     //console.log('render --------------> current viewMode: ' + this.state.viewMode)
     //console.log('render ---------------> pkm list lenght: ' + this.state.displayedPkmon.length)
-    console.log('render -------> current PokedexPosition: ' + this.state.PokedexPosition)
+    console.log('render ---------> current PokedexIndPos: ' + this.state.PokedexIndPos)
     const filteredPkmon = this.state.displayedPkmon
     return(
       <div className='tc'>
@@ -107,7 +126,7 @@ class App extends Component {
         <PageNav
             changePage={this.updateCardList}
             direction='previous'
-            currentPosition={this.state.PokedexPosition}
+            currentPosition={this.state.PokedexIndPos}
             span={this.state.perPage}
           />
         <div
@@ -122,7 +141,7 @@ class App extends Component {
         <PageNav
             changePage={this.updateCardList}
             direction='next'
-            currentPosition={this.state.PokedexPosition}
+            currentPosition={this.state.PokedexIndPos}
             span={this.state.perPage}
           />
         </div>
