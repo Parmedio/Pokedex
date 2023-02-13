@@ -9,7 +9,7 @@ class App extends Component {
     super()
     this.state = {
     displayedPkmon: [],
-    perPage: 6,
+    perPage: 12,
     viewMode: 'artwork',
     PokedexPosition : 1
     }
@@ -64,18 +64,17 @@ class App extends Component {
     this.setState({ PokedexPosition: counter });
   };
 
-
   setPokedexPosition = (event) => { // DA RIVEDERE PERCHÉ POI HO ANCHE POKEMON SPECIALI 10K
-    // let newPosition = event.target.getAttribute('name');
-    // let ceil = 1009 - this.state.perPage
-    // if (newPosition >= 1 && newPosition <= ceil) {
-    //   return newPosition
-    // } else if (newPosition < 1) {
-    //   return 1
-    // } else if (newPosition > ceil) {
-    //   return ceil
-    // }
-    return event.target.getAttribute('name');
+    let newPosition = event.target.getAttribute('name');
+    let ceil = 1009 - this.state.perPage
+    if (newPosition >= 1 && newPosition <= ceil) {
+      return newPosition
+    } else if (newPosition < 1) {
+      return 1
+    } else if (newPosition > ceil) {
+      return ceil
+    }
+    //return event.target.getAttribute('name');
   }
   
   updateContent = () => {
@@ -97,24 +96,36 @@ class App extends Component {
     const filteredPkmon = this.state.displayedPkmon
     return(
       <div className='tc'>
-        <h1 className='mh0 mt4 mb0 grow' onClick={this.viewModeSwitch}> Pokedex </h1>
-        <div style={{ display: 'flex', justifyContent: 'space-around' }}>
-          <PageNav
+        <h1 className='mh0 mt2 mb0 grow' onClick={this.viewModeSwitch}> Pokedex </h1>
+          <GenBookmarks updateCardList={this.updateCardList}/>
+          <div style={{
+            display: 'flex',
+            flexDirection: 'row',
+            justifyContent: 'center'
+            }}
+          >
+        <PageNav
             changePage={this.updateCardList}
             direction='previous'
             currentPosition={this.state.PokedexPosition}
             span={this.state.perPage}
           />
-          <GenBookmarks updateCardList={this.updateCardList}/>
-          <PageNav
+        <div
+          style={{
+              width: '94.6%',
+              marcgin: '0px', 
+              // backgroundColor: 'red'
+            }}
+        >
+          <CardList filteredPkmon={filteredPkmon} viewMode={this.state.viewMode}/>
+        </div>
+        <PageNav
             changePage={this.updateCardList}
             direction='next'
             currentPosition={this.state.PokedexPosition}
             span={this.state.perPage}
           />
         </div>
-        
-        <CardList filteredPkmon={filteredPkmon} viewMode={this.state.viewMode}/>
       </div>
     );
   }

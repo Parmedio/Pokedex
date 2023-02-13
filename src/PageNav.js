@@ -5,23 +5,31 @@ const PageNav = ({ changePage, direction, currentPosition, span }) => {
   let imgDir;
   if (direction === 'next') {
     nextPokedexPosition = currentPosition;
-    imgDir = '▶️';
+    imgDir = '▶'; //▶️
   } else {
     nextPokedexPosition = currentPosition - 2*span;
-    imgDir = '◀️';
+    imgDir = '◀'; //◀️
   }
 
   return(
-    <div className='pv2'> 
+    <div
+      className='pa0 ma0'
+      style={{
+        display: 'flex',
+        alignItems: 'center',
+      }}
+    > 
       <button
         name={nextPokedexPosition}
-        className='ma0 grow'
+        className='ma0 pa0 grow'
         style={{
-          minWidth: '80px', height: '80px',
-          borderRadius: '40px',
-          fontSize: '46px',
+          minWidth: '50px',
+          height: '50px',
+          borderRadius: '30px',
+          fontSize: '40px',
           background: '#00a6ed',
-          border: '0px'
+          border: '0px',
+          color: 'white'
           }}
         onClick={changePage}
         
