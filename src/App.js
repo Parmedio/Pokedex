@@ -11,7 +11,7 @@ class App extends Component {
     displayedPkmon: [],
     perPage: 12,
     viewMode: 'artwork',
-    PokedexIndPos : 1002 //index
+    PokedexIndPos : 0
     }
   }
 
@@ -56,7 +56,6 @@ class App extends Component {
     let currentIndex = startingIndex
     while (targetList.length < this.state.perPage ) {
       let pokemonNr = this.getPkNumberAtIndex(currentIndex)
-      console.log('adesso il currentIndex è: ' + currentIndex)
       const res = await fetch(`https://pokeapi.co/api/v2/pokemon/${pokemonNr}`);
       const obj = await res.json();
       const Order = obj.id;
@@ -73,9 +72,7 @@ class App extends Component {
       const Weight = obj.weight;
       const OffArt = obj.sprites.other['official-artwork'].front_default;
       const Sprite = obj.sprites.front_default;
-  
-      console.log('sto caricando il pkmon nr ' + pokemonNr)
-      
+   
       targetList.push({
         number: Order,
         name: Name,
@@ -86,16 +83,22 @@ class App extends Component {
         offArt: OffArt,
         sprite: Sprite
       },)
-
       counter++;
       currentIndex = Number(startingIndex) + Number(counter);
     }
     this.setState({ PokedexIndPos: currentIndex });
-    console.log('after the pk loading index is' + currentIndex)
   };
 
   setPokedexIndPos = (event) => {
-    return event.target.getAttribute('name')//comunqune devi metter limite inferiore e superiore
+    let ceil = this.orderedArray.length - this.state.perPage
+    let proposal = event.target.getAttribute('name')
+    if (proposal < 0) {
+      return 0
+    } else if (proposal >= 0 && proposal <= ceil) {
+      return proposal
+    } else {
+      return ceil
+    }
   }
   
   updateContent = () => {
@@ -111,9 +114,9 @@ class App extends Component {
   };  
 
   render() {
-    //console.log('render --------------> current viewMode: ' + this.state.viewMode)
-    //console.log('render ---------------> pkm list lenght: ' + this.state.displayedPkmon.length)
-    console.log('render ---------> current PokedexIndPos: ' + this.state.PokedexIndPos)
+    //console.log('render ---------------> current viewMode: ' + this.state.viewMode)
+    //console.log('render ----------------> pkm list length: ' + this.state.displayedPkmon.length)
+    console.log('render ----------> current PokedexIndPos: ' + this.state.PokedexIndPos)
     const filteredPkmon = this.state.displayedPkmon
     return(
       <div className='tc'>

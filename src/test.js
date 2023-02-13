@@ -18,11 +18,8 @@ const createOrderedArray = () => {
 
 let orderedArray = createOrderedArray();
 
+console.log(orderedArray.lenght)
+
 const getPkNumberAtIndex = (index) => {
   return orderedArray[index];
-}
-
-
-for (let i = 1; i <= 30; i++) {
-  console.log(getPkNumberAtIndex(i))
 }

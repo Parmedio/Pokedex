@@ -4,25 +4,26 @@ import GenLink from './GenLink';
 const GenBookmarks = ({ updateCardList }) => {
 
   const setBookmark = (number) => {
+    let adjust = -1
     switch (number) {
       case 1:
-        return 1;
+        return 1 + adjust;
       case 2:
-        return 152;
+        return 152 + adjust;
       case 3:
-        return 252;
+        return 252 + adjust;
       case 4:
-        return 387;
+        return 387 + adjust;
       case 5:
-        return 494;
+        return 494 + adjust;
       case 6:
-        return 650;
+        return 650 + adjust;
       case 7:
-        return 722;
+        return 722 + adjust;
       case 8:
-        return 810;
+        return 810 + adjust;
       case 9:
-        return 906;
+        return 906 + adjust;
       default:
         return undefined;
     }

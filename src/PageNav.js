@@ -5,12 +5,12 @@ const PageNav = ({ changePage, direction, currentPosition, span }) => {
   let imgDir;
   if (direction === 'next') {
     nextPokedexPosition = currentPosition;
-    imgDir = '▶'; //▶️
-    console.log('PageNav --------> nextPosition proposal: ' + nextPokedexPosition)
+    imgDir = 'next';
+    console.log('PageNav ---------> nextPosition proposal: ' + nextPokedexPosition)
   } else {
     nextPokedexPosition = currentPosition - 2*span;
-    imgDir = '◀'; //◀️
-    console.log('PageNav --------> prevPosition proposal: ' + nextPokedexPosition)
+    imgDir = 'prev';
+    console.log('PageNav ---------> prevPosition proposal: ' + nextPokedexPosition)
   }
 
   return(
@@ -25,7 +25,8 @@ const PageNav = ({ changePage, direction, currentPosition, span }) => {
         name={nextPokedexPosition}
         className='ma0 pa0 grow'
         style={{
-          minWidth: '50px',
+          transform:'rotate(-90deg)',
+          minWidth: '100px',
           height: '50px',
           borderRadius: '30px',
           fontSize: '40px',
