@@ -22,4 +22,7 @@ const getPkNumberAtIndex = (index) => {
   return orderedArray[index];
 }
 
-getPkNumberAtIndex(1009)
+
+for (let i = 1; i <= 30; i++) {
+  console.log(getPkNumberAtIndex(i))
+}

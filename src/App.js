@@ -1,4 +1,4 @@
-import React, { Component, startTransition } from 'react';
+import React, { Component } from 'react';
 import CardList from './CardList';
 import PageNav from './PageNav';
 import GenBookmarks from './GenBookmarks';
@@ -11,7 +11,7 @@ class App extends Component {
     displayedPkmon: [],
     perPage: 12,
     viewMode: 'artwork',
-    PokedexIndPos : 0 //index
+    PokedexIndPos : 1002 //index
     }
   }
 
@@ -56,7 +56,8 @@ class App extends Component {
     let currentIndex = startingIndex
     while (targetList.length < this.state.perPage ) {
       let pokemonNr = this.getPkNumberAtIndex(currentIndex)
-      const res = await fetch(`https://pokeapi.co/api/v2/pokemon/${pokemonNr}/`);
+      console.log('adesso il currentIndex è: ' + currentIndex)
+      const res = await fetch(`https://pokeapi.co/api/v2/pokemon/${pokemonNr}`);
       const obj = await res.json();
       const Order = obj.id;
       const Name = obj.name;
@@ -73,7 +74,7 @@ class App extends Component {
       const OffArt = obj.sprites.other['official-artwork'].front_default;
       const Sprite = obj.sprites.front_default;
   
-      console.log('sto caricando il pkmon nr ' + counter)
+      console.log('sto caricando il pkmon nr ' + pokemonNr)
       
       targetList.push({
         number: Order,
@@ -87,9 +88,10 @@ class App extends Component {
       },)
 
       counter++;
-      currentIndex = startingIndex + counter;
+      currentIndex = Number(startingIndex) + Number(counter);
     }
     this.setState({ PokedexIndPos: currentIndex });
+    console.log('after the pk loading index is' + currentIndex)
   };
 
   setPokedexIndPos = (event) => {

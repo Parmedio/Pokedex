@@ -64,7 +64,7 @@ const GenBookmarks = ({ updateCardList }) => {
       <GenLink
         key={10}
         btnText='special'
-        GenStartAt= '10001'
+        GenStartAt= {1008}
         updateCardList={updateCardList}
       />
     </div>
