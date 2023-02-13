@@ -15,7 +15,6 @@ const GenLink = ({ btnText, GenStartAt, updateCardList }) => {
       className= 'fw8 bg-light-gray ba bw2 b--moon-gray'
       style={{
         display: 'flex',
-        flexDirection: 'row',
         alignItems: 'center',
         justifyContent: 'center',
         padding: '0px 0px 0px 0px',
@@ -28,7 +27,7 @@ const GenLink = ({ btnText, GenStartAt, updateCardList }) => {
       <button
         onClick={updateCardList}
         name={GenStartAt}
-        className= 'fw8 bw0'
+        className= 'fw8 bw0 grow'
         style={{
           display: 'flex',
           flexDirection: 'row',

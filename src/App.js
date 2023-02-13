@@ -9,7 +9,7 @@ class App extends Component {
     super()
     this.state = {
     displayedPkmon: [],
-    perPage: 12,
+    perPage: 16,
     viewMode: 'artwork',
     PokedexIndPos : 0
     }
@@ -47,7 +47,6 @@ class App extends Component {
 
   viewModeSwitch = () => {
     this.state.viewMode === 'artwork' ? this.setState({viewMode: 'pixel'}) : this.setState({viewMode: 'artwork'})
-    //console.log('eseguito viewModeSwitch')
   };
 
   loadPkmon = async (targetList) => {
@@ -121,29 +120,29 @@ class App extends Component {
     return(
       <div className='tc'>
         <h1 className='mh0 mt2 mb0 grow' onClick={this.viewModeSwitch}> Pokedex </h1>
-          <GenBookmarks updateCardList={this.updateCardList}/>
-          <div style={{
-            display: 'flex',
-            flexDirection: 'row',
-            justifyContent: 'center'
-            }}
-          >
-        <PageNav
+        <GenBookmarks updateCardList={this.updateCardList}/>
+        <div style={{
+          display: 'flex',
+          flexDirection: 'row',
+          justifyContent: 'center'
+          }}
+        >
+          <PageNav
             changePage={this.updateCardList}
             direction='previous'
             currentPosition={this.state.PokedexIndPos}
             span={this.state.perPage}
           />
-        <div
-          style={{
-              width: '94.6%',
-              marcgin: '0px', 
-              // backgroundColor: 'red'
-            }}
-        >
-          <CardList filteredPkmon={filteredPkmon} viewMode={this.state.viewMode}/>
-        </div>
-        <PageNav
+          <div
+            style={{
+                width: '98%',
+                marcgin: '0px', 
+                // backgroundColor: 'red'
+              }}
+          >
+            <CardList filteredPkmon={filteredPkmon} viewMode={this.state.viewMode}/>
+          </div>
+          <PageNav
             changePage={this.updateCardList}
             direction='next'
             currentPosition={this.state.PokedexIndPos}
