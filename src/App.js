@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import CardList from './CardList';
 import PageNav from './PageNav';
 import GenBookmarks from './GenBookmarks';
+//import LoadingBar from './LoadingBar';
+// import Test from './test';
 import './index.css';
 
 class App extends Component {    
@@ -9,9 +11,9 @@ class App extends Component {
     super()
     this.state = {
     displayedPkmon: [],
-    perPage: 16,
+    perPage: 6,
     viewMode: 'artwork',
-    PokedexIndPos : 0
+    PokedexIndPos : 0,
     }
   }
 
@@ -52,8 +54,9 @@ class App extends Component {
   loadPkmon = async (targetList) => {
     let counter = 0
     let startingIndex = this.state.PokedexIndPos
+    let basketDepth = this.state.perPage
     let currentIndex = startingIndex
-    while (targetList.length < this.state.perPage ) {
+    while (targetList.length < basketDepth ) {
       let pokemonNr = this.getPkNumberAtIndex(currentIndex)
       const res = await fetch(`https://pokeapi.co/api/v2/pokemon/${pokemonNr}`);
       const obj = await res.json();
@@ -149,6 +152,8 @@ class App extends Component {
             span={this.state.perPage}
           />
         </div>
+        <LoadingBar loadStatus={this.state.loadStatus}/>
+        {/* <Test loadStatus={this.state.loadStatus}/> */}
       </div>
     );
   }

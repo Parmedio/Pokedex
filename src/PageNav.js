@@ -30,12 +30,12 @@ const PageNav = ({ changePage, direction, currentPosition, span }) => {
         display: 'flex',
         alignItems: 'center',
         padding: '30px 0px 30px 0px',
-        margin: '17% 0px 17% 0px',
+        margin: '22% 0px 0% 0px',
         width: '68px',
         minWidth: '46px',
         borderRadius: '36px',
         position: 'absolute',
-        [position]: 216,
+        [position]: 230,
         zIndex: 900,
       }}
     >
