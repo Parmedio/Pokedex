@@ -1,33 +1,60 @@
 import React from 'react';
+import Tilt from 'react-parallax-tilt';
 
-const PageNav = ({ changePage, direction, perPage, fonte }) => {
-  let link;
-  let imgDir;
-  const position = Number(fonte.slice(fonte.indexOf('set=') + 4, fonte.indexOf('&limit')));
+const PageNav = ({ changePage, direction, currentPosition, span }) => {
+  let nextPokedexPosition;
+  let btnText;
+  let position;
   if (direction === 'next') {
-    link = `https://pokeapi.co/api/v2/pokemon?offset=${position + Number(perPage)}&limit=${perPage}`;
-    imgDir = '▶️';
+    nextPokedexPosition = currentPosition;
+    btnText = 'next';
+    position = 'right';
   } else {
-    link = `https://pokeapi.co/api/v2/pokemon?offset=${position - Number(perPage)}&limit=${perPage}`;
-    imgDir = '◀️';
+    nextPokedexPosition = currentPosition - 2*span;
+    btnText = 'prev';
+    position = 'left';
   }
 
   return(
-    <div className='pv2'> 
+    <Tilt
+      perspective={200}
+      glareEnable={true}
+      glareMaxOpacity={1}
+      glarePosition='all'
+      glareBorderRadius='30px'
+      glareColor='white'
+      transitionSpeed='800'
+      scale={1.24}
+      reset='true'
+      className= 'fw8 bg-light-gray ba bw2 b--moon-gray'
+      style={{
+        display: 'flex',
+        alignItems: 'center',
+        padding: '30px 0px 30px 0px',
+        width: '68px',
+        borderRadius: '36px',
+        position: 'absolute',
+        [position]: 10,
+        zIndex: 800,
+      }}
+    >
       <button
-        name={link}
-        className='ma0 grow'
-        style={{
-          minWidth: '80px', height: '80px',
-          borderRadius: '40px',
-          fontSize: '46px',
-          background: '#00a6ed',
-          border: '0px'
-          }}
         onClick={changePage}
-        
-      >{imgDir}</button>
-    </div>
+        name={nextPokedexPosition}
+        className= 'fw8 bw0 grow'
+        style={{
+          padding: '24px 10px 24px 10px',
+          borderRadius: '36px',
+          minWidth: '64px',
+          position: 'absolute',
+          backgroundColor: 'rgba(255, 0, 0, 0)',
+          [position]: -2,
+          zIndex: 900,
+        }}
+      >
+        {btnText}
+      </button>
+    </Tilt>
   );
 }
 

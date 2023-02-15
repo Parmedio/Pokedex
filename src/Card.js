@@ -29,7 +29,7 @@ const Card = ({ number, name, type01, type02, weight, height, offArt, sprite, vi
     setImgUrl(imgUrl === offArt ? sprite : offArt);
   };
 
-  const leftPart = (str) => {//487
+  const getUntillSymbol = (str) => {//487
     let index = str.indexOf('-');
     if (index >= 5) {
       return str.substring(0, index);
@@ -43,16 +43,17 @@ const Card = ({ number, name, type01, type02, weight, height, offArt, sprite, vi
       perspective={800}
       glareEnable={true}
       glareMaxOpacity={0.5}
-      glarePosition='left'
+      glarePosition='right'
       glareBorderRadius='18px'
-      transitionSpeed='800' 
+      transitionSpeed='800'
       scale={1}
       reset='true'
       style={{
         background: `${bgSetter(type01, type02)}`,
         width: '100%',
         height: 'auto',
-        maxWidth: '310px'
+        maxWidth: '400px',
+        zIndex: 100,
       }}
     >
       <div
@@ -72,8 +73,8 @@ const Card = ({ number, name, type01, type02, weight, height, offArt, sprite, vi
           />
         </CSSTransition>
         <div className='mv'>
-          <h1 className='mv0 grow'>{leftPart(capFirstLetter(name))}</h1>
-          <div className='flex justify-between grow'>
+          <h1 className='mv0 grow'>{getUntillSymbol(capFirstLetter(name))}</h1>
+          {/* <div className='flex justify-between grow'>
             <p className='ml4 mv1'>type: </p>
             <p className='mv1'>{emojiType(type01)}</p>
             <p className='mr4 mv1'>{emojiType(type02)}</p>
@@ -87,7 +88,7 @@ const Card = ({ number, name, type01, type02, weight, height, offArt, sprite, vi
               <p className='ml4 mt1 mb3'>weight: </p>
               <p className='mr4 mt1 mb3'>{(weight)/10} kg</p>
             </div>
-          </div>
+          </div> */}
         </div>  
       </div>
     </Tilt>

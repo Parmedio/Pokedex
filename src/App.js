@@ -1,60 +1,80 @@
-import React, { Component } from 'react';
-import SearchBox from './SearchBox';
+import React, { Component, createRef } from 'react';
 import CardList from './CardList';
 import PageNav from './PageNav';
-import Bookmarks from './Bookmarks';
+import GenBookmarks from './GenBookmarks';
+//import LoadingBar from './LoadingBar';
+// import Test from './test';
 import './index.css';
 
 class App extends Component {    
   constructor() {
     super()
-    this.state = { //qualsiasi cosa possa cambiare ed influenzare l'aspetto della App
+    this.state = {
     displayedPkmon: [],
-    searchfield: '',
-    perPage: 16,
-    fonte: '',
-    viewMode: 'artwork'
+    perPage: 12,
+    viewMode: 'artwork',
+    PokedexIndPos : 0,
     }
+  }
+
+  createOrderedArray = () => {
+    var array1 = [];
+    var array2 = [];
+  
+    for (var i = 1; i <= 1008; i++) {
+      array1.push(i);
+    }
+  
+    for (var j = 10001; j <= 10263; j++) {
+      array2.push(j);
+    }
+  
+    var combinedArray = array1.concat(array2);
+    combinedArray.sort((a, b) => a - b);
+  
+    return combinedArray;
+  }
+
+  orderedArray = this.createOrderedArray();
+
+  getPkNumberAtIndex = (index) => {
+    return this.orderedArray[index];
   }
 
   componentDidMount() {
     let raccolta = []
-    let origin = 'https://pokeapi.co/api/v2/pokemon?offset=0&limit='
-    this.loadPkmon(origin + this.state.perPage, raccolta)
+    this.loadPkmon(raccolta)
     .then(() => this.setState({displayedPkmon: raccolta}))
-    .then(() => this.setState({fonte: `${origin}${this.state.perPage}`}));
-    //console.log('compDidMount ------------> current fonte: ' + this.state.fonte);
-    //console.log('compDidMount ---> current displayedPkmon: ' + this.state.fonte);
   };
 
   viewModeSwitch = () => {
     this.state.viewMode === 'artwork' ? this.setState({viewMode: 'pixel'}) : this.setState({viewMode: 'artwork'})
-    //console.log('eseguito viewModeSwitch')
-    //console.log(this.state.viewMode)
   };
 
-  loadPkmon = async (url, targetList) => {
-    const res1 = await fetch(url);
-    const obj1 = await res1.json();
-    for (let i = 0; i < obj1.results.length; i++) {
-      const pkmUrl = obj1.results[i].url;
-      const res2 = await fetch(pkmUrl);
-      const obj2 = await res2.json();
-      const Order = obj2.id;
-      const Name = obj2.name;
-      const Type01 = obj2.types[0].type.name;
+  loadPkmon = async (targetList) => {
+    let counter = 0
+    let startingIndex = this.state.PokedexIndPos
+    let basketDepth = this.state.perPage
+    let currentIndex = startingIndex
+    while (targetList.length < basketDepth ) {
+      let pokemonNr = this.getPkNumberAtIndex(currentIndex)
+      const res = await fetch(`https://pokeapi.co/api/v2/pokemon/${pokemonNr}`);
+      const obj = await res.json();
+      const Order = obj.id;
+      const Name = obj.name;
+      const Type01 = obj.types[0].type.name;
       let Type02 = '' 
       try {
-        Type02 = obj2.types[1].type.name;
+      Type02 = obj.types[1].type.name;
       }
       catch {
-        Type02 = '';
+      Type02 = '';
       }
-      const Height = obj2.height;
-      const Weight = obj2.weight;
-      const OffArt = obj2.sprites.other['official-artwork'].front_default;
-      const Sprite = obj2.sprites.front_default;
-      
+      const Height = obj.height;
+      const Weight = obj.weight;
+      const OffArt = obj.sprites.other['official-artwork'].front_default;
+      const Sprite = obj.sprites.front_default;
+   
       targetList.push({
         number: Order,
         name: Name,
@@ -65,63 +85,64 @@ class App extends Component {
         offArt: OffArt,
         sprite: Sprite
       },)
+      counter++;
+      currentIndex = Number(startingIndex) + Number(counter);
     }
+    this.setState({ PokedexIndPos: currentIndex });
   };
 
-  onSearchChange = (event) => {
-    this.setState({searchfield: event.target.value});
-  };
-
-  grabSource = (event) => {
-    let newSource = event.target.getAttribute('name');
-    let currentSource = this.state.fonte;
-    let position = Number(newSource.slice(newSource.indexOf('set=') + 4, newSource.indexOf('&limit')))
-    return position >= 0 && position <= 1007 ? newSource : currentSource;
-  };
-
+  setPokedexIndPos = (event) => {
+    let ceil = this.orderedArray.length - this.state.perPage
+    let proposal = event.target.getAttribute('name')
+    if (proposal < 0) {
+      return 0
+    } else if (proposal >= 0 && proposal <= ceil) {
+      return proposal
+    } else {
+      return ceil
+    }
+  }
+  
   updateContent = () => {
     let raccolta = [];
-    this.loadPkmon(this.state.fonte, raccolta)
+    this.loadPkmon(raccolta)
     .then(() => this.setState({displayedPkmon: raccolta}));
   };
-
-  updateDash = async (grabSource = () => {}) => {
-    const newSource = await grabSource();
-    this.setState({fonte: newSource}, () => {
+  
+  updateCardList = (event) => {
+    this.setState({ PokedexIndPos: this.setPokedexIndPos(event) }, () => {
       this.updateContent();
     });
-  };
+  };  
 
   render() {
-    //console.log('render --------------> current viewMode: ' + this.state.viewMode)
-    //console.log('render -----------------> current fonte: ' + this.state.fonte)
-    //console.log('render ---------------> pkm list lenght: ' + this.state.displayedPkmon.length)
-    const filteredPkmon = this.state.displayedPkmon.filter(currentValue => {
-      return currentValue.name.toLowerCase().includes(this.state.searchfield.toLowerCase());
-    })
+    //console.log('render ---------------> current viewMode: ' + this.state.viewMode)
+    //console.log('render ----------------> pkm list length: ' + this.state.displayedPkmon.length)
+    //console.log('render ----------> current PokedexIndPos: ' + this.state.PokedexIndPos)
+    const filteredPkmon = this.state.displayedPkmon
     return(
       <div className='tc'>
-        <h1 className='mh0 mt4 mb0 grow' onClick={this.viewModeSwitch}> Pkdex </h1>
-        <div style={{ display: 'flex', justifyContent: 'space-around', flexWrap: 'wrap' }}>
+        <h1 className='mh0 mt2 mb0 grow' onClick={this.viewModeSwitch}> Pokedex </h1>
+        <GenBookmarks updateCardList={this.updateCardList}/>
+        <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'center', alignItems: 'center' }}>
           <PageNav
-            changePage={(event) => this.updateDash(() => this.grabSource(event))}
+            changePage={this.updateCardList}
             direction='previous'
-            perPage={this.state.perPage}
-            fonte={this.state.fonte}
+            currentPosition={this.state.PokedexIndPos}
+            span={this.state.perPage}
           />
-          <SearchBox searchChange={this.onSearchChange}/>
+          <div style={{ width: '94%', margin: '0px', display: 'flex', justifyContent: 'center' }}>
+            <CardList  filteredPkmon={filteredPkmon} viewMode={this.state.viewMode}/>
+          </div>
           <PageNav
-            changePage={(event) => this.updateDash(() => this.grabSource(event))} 
+            changePage={this.updateCardList}
             direction='next'
-            perPage={this.state.perPage}
-            fonte={this.state.fonte}
+            currentPosition={this.state.PokedexIndPos}
+            span={this.state.perPage}
           />
         </div>
-        <Bookmarks
-          perPage={this.state.perPage}
-          changePage={(event) => this.updateDash(() => this.grabSource(event))}
-        />
-        <CardList filteredPkmon={filteredPkmon} viewMode={this.state.viewMode}/>
+        {/* <LoadingBar loadStatus={this.state.loadStatus}/> */}
+        {/* <Test loadStatus={this.state.loadStatus}/> */}
       </div>
     );
   }
