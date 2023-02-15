@@ -29,7 +29,7 @@ const Card = ({ number, name, type01, type02, weight, height, offArt, sprite, vi
     setImgUrl(imgUrl === offArt ? sprite : offArt);
   };
 
-  const leftPart = (str) => {//487
+  const getUntillSymbol = (str) => {//487
     let index = str.indexOf('-');
     if (index >= 5) {
       return str.substring(0, index);
@@ -72,7 +72,7 @@ const Card = ({ number, name, type01, type02, weight, height, offArt, sprite, vi
           />
         </CSSTransition>
         <div className='mv'>
-          <h1 className='mv0 grow'>{leftPart(capFirstLetter(name))}</h1>
+          <h1 className='mv0 grow'>{getUntillSymbol(capFirstLetter(name))}</h1>
           <div className='flex justify-between grow'>
             <p className='ml4 mv1'>type: </p>
             <p className='mv1'>{emojiType(type01)}</p>

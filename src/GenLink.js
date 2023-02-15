@@ -29,12 +29,12 @@ const GenLink = ({ btnText, GenStartAt, updateCardList }) => {
         name={GenStartAt}
         className= 'fw8 bw0 grow'
         style={{
-          display: 'flex',
-          flexDirection: 'row',
-          alignItems: 'center',
-          justifyContent: 'center',
           padding: '10px 6px 10px 6px',
           margin: '0px 0px 0px 0px',
+          //display: 'flex',
+          //flexDirection: 'row',
+          //alignItems: 'center',
+          //justifyContent: 'center',
           width: 'auto',
           minWidth: '38px',
           borderRadius: '24px',

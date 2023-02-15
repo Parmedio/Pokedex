@@ -22,6 +22,7 @@ const PageNav = ({ changePage, direction, currentPosition, span }) => {
       glareMaxOpacity={1}
       glarePosition='all'
       glareBorderRadius='30px'
+      glareColor='white'
       transitionSpeed='800'
       scale={1.24}
       reset='true'
@@ -30,12 +31,11 @@ const PageNav = ({ changePage, direction, currentPosition, span }) => {
         display: 'flex',
         alignItems: 'center',
         padding: '30px 0px 30px 0px',
-        margin: '22% 0px 0% 0px',
         width: '68px',
         minWidth: '46px',
         borderRadius: '36px',
         position: 'absolute',
-        [position]: 230,
+        [position]: 10,
         zIndex: 900,
       }}
     >
@@ -44,10 +44,10 @@ const PageNav = ({ changePage, direction, currentPosition, span }) => {
         name={nextPokedexPosition}
         className= 'fw8 bw0 grow'
         style={{
-          padding: '10px 6px 10px 6px',
-          margin: '0px 0px 0px 0px',
-          width: 'auto',
-          minWidth: '38px',
+          //padding: '10px 6px 10px 6px',
+          //margin: '0px 0px 0px 0px',
+          //width: 'auto',
+          //minWidth: '38px',
           borderRadius: '24px',
           position: 'absolute',
           backgroundColor: 'rgba(255, 0, 0, 0)',

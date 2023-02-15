@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, createRef } from 'react';
 import CardList from './CardList';
 import PageNav from './PageNav';
 import GenBookmarks from './GenBookmarks';
@@ -11,7 +11,7 @@ class App extends Component {
     super()
     this.state = {
     displayedPkmon: [],
-    perPage: 6,
+    perPage: 12,
     viewMode: 'artwork',
     PokedexIndPos : 0,
     }
@@ -118,17 +118,19 @@ class App extends Component {
   render() {
     //console.log('render ---------------> current viewMode: ' + this.state.viewMode)
     //console.log('render ----------------> pkm list length: ' + this.state.displayedPkmon.length)
-    console.log('render ----------> current PokedexIndPos: ' + this.state.PokedexIndPos)
+    //console.log('render ----------> current PokedexIndPos: ' + this.state.PokedexIndPos)
     const filteredPkmon = this.state.displayedPkmon
     return(
       <div className='tc'>
         <h1 className='mh0 mt2 mb0 grow' onClick={this.viewModeSwitch}> Pokedex </h1>
         <GenBookmarks updateCardList={this.updateCardList}/>
-        <div style={{
-          display: 'flex',
-          flexDirection: 'row',
-          justifyContent: 'center'
-          }}
+        <div
+          style={{
+            display: 'flex',
+            flexDirection: 'row',
+            justifyContent: 'center',
+            alignItems: 'center',
+            }}
         >
           <PageNav
             changePage={this.updateCardList}
@@ -140,10 +142,9 @@ class App extends Component {
             style={{
                 width: '98%',
                 marcgin: '0px', 
-                // backgroundColor: 'red'
               }}
           >
-            <CardList filteredPkmon={filteredPkmon} viewMode={this.state.viewMode}/>
+            <CardList  filteredPkmon={filteredPkmon} viewMode={this.state.viewMode}/>
           </div>
           <PageNav
             changePage={this.updateCardList}
@@ -152,7 +153,7 @@ class App extends Component {
             span={this.state.perPage}
           />
         </div>
-        <LoadingBar loadStatus={this.state.loadStatus}/>
+        {/* <LoadingBar loadStatus={this.state.loadStatus}/> */}
         {/* <Test loadStatus={this.state.loadStatus}/> */}
       </div>
     );
