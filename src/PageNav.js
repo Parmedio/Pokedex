@@ -32,11 +32,10 @@ const PageNav = ({ changePage, direction, currentPosition, span }) => {
         alignItems: 'center',
         padding: '30px 0px 30px 0px',
         width: '68px',
-        minWidth: '46px',
         borderRadius: '36px',
         position: 'absolute',
         [position]: 10,
-        zIndex: 900,
+        zIndex: 800,
       }}
     >
       <button
@@ -44,14 +43,12 @@ const PageNav = ({ changePage, direction, currentPosition, span }) => {
         name={nextPokedexPosition}
         className= 'fw8 bw0 grow'
         style={{
-          //padding: '10px 6px 10px 6px',
-          //margin: '0px 0px 0px 0px',
-          //width: 'auto',
-          //minWidth: '38px',
-          borderRadius: '24px',
+          padding: '24px 10px 24px 10px',
+          borderRadius: '36px',
+          minWidth: '64px',
           position: 'absolute',
           backgroundColor: 'rgba(255, 0, 0, 0)',
-          [position]: 6,
+          [position]: -2,
           zIndex: 900,
         }}
       >

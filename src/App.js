@@ -124,26 +124,14 @@ class App extends Component {
       <div className='tc'>
         <h1 className='mh0 mt2 mb0 grow' onClick={this.viewModeSwitch}> Pokedex </h1>
         <GenBookmarks updateCardList={this.updateCardList}/>
-        <div
-          style={{
-            display: 'flex',
-            flexDirection: 'row',
-            justifyContent: 'center',
-            alignItems: 'center',
-            }}
-        >
+        <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'center', alignItems: 'center' }}>
           <PageNav
             changePage={this.updateCardList}
             direction='previous'
             currentPosition={this.state.PokedexIndPos}
             span={this.state.perPage}
           />
-          <div
-            style={{
-                width: '98%',
-                marcgin: '0px', 
-              }}
-          >
+          <div style={{ width: '94%', margin: '0px', display: 'flex', justifyContent: 'center' }}>
             <CardList  filteredPkmon={filteredPkmon} viewMode={this.state.viewMode}/>
           </div>
           <PageNav

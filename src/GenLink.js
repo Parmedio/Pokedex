@@ -15,9 +15,8 @@ const GenLink = ({ btnText, GenStartAt, updateCardList }) => {
       className= 'fw8 bg-light-gray ba bw2 b--moon-gray'
       style={{
         display: 'flex',
-        alignItems: 'center',
         justifyContent: 'center',
-        padding: '0px 0px 0px 0px',
+        padding: '0px',
         margin: '10px 3px 10px 3px',
         width: 'auto',
         minWidth: '46px',
@@ -30,14 +29,10 @@ const GenLink = ({ btnText, GenStartAt, updateCardList }) => {
         className= 'fw8 bw0 grow'
         style={{
           padding: '10px 6px 10px 6px',
-          margin: '0px 0px 0px 0px',
-          //display: 'flex',
-          //flexDirection: 'row',
-          //alignItems: 'center',
-          //justifyContent: 'center',
-          width: 'auto',
           minWidth: '38px',
           borderRadius: '24px',
+          backgroundColor: 'rgba(255, 0, 0, 0)',
+          zIndex: 900,
         }}
       >
         {btnText}

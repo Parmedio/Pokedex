@@ -7,9 +7,9 @@ const CardList = ({ filteredPkmon, viewMode }) => {
       style={{
         display: 'grid',
         justifyItems: 'center',
-        gridTemplateColumns: 'repeat( auto-fit, minmax(220px, 1fr) )', 
+        gridTemplateColumns: 'repeat( 6, minmax(180px, 400px))', // auto-fit
         gridTemplateRows: '',
-        gridGap: '10px 10px',
+        gridGap: '4px 10px',
         gridAutoFlow: 'row'
       }}
     > 
