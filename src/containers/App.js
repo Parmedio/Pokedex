@@ -117,7 +117,8 @@ class App extends Component {
     //console.log('render ---------------> current viewMode: ' + this.state.viewMode)
     //console.log('render ----------------> pkm list length: ' + this.state.displayedPkmon.length)
     //console.log('render ----------> current PokedexIndPos: ' + this.state.PokedexIndPos)
-    const filteredPkmon = this.state.displayedPkmon
+    const { displayedPkmon, PokedexIndPos, perPage, viewMode } = this.state;
+    const filteredPkmon = displayedPkmon;
     return(
       <div className='tc'>
         <h1 className='mh0 mt2 mb0 grow' onClick={this.viewModeSwitch}> Pokedex </h1>
@@ -126,17 +127,17 @@ class App extends Component {
           <PageNav
             changePage={this.updateCardList}
             direction='previous'
-            currentPosition={this.state.PokedexIndPos}
-            span={this.state.perPage}
+            currentPosition={PokedexIndPos}
+            span={perPage}
           />
           <div style={{ width: '94%', margin: '0px', display: 'flex', justifyContent: 'center' }}>
-            <CardList  filteredPkmon={filteredPkmon} viewMode={this.state.viewMode}/>
+            <CardList  filteredPkmon={filteredPkmon} viewMode={viewMode}/>
           </div>
           <PageNav
             changePage={this.updateCardList}
             direction='next'
-            currentPosition={this.state.PokedexIndPos}
-            span={this.state.perPage}
+            currentPosition={PokedexIndPos}
+            span={perPage}
           />
         </div>
       </div>
