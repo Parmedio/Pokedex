@@ -14,10 +14,6 @@ const Card = ({ number, name, type01, type02, weight, height, offArt, sprite, vi
     }
     return background;
   }
-  
-  const capFirstLetter = (str) => {
-    return str.charAt(0).toUpperCase() + str.slice(1);
-  }
 
   const [imgUrl, setImgUrl] = useState('');
 
@@ -72,9 +68,9 @@ const Card = ({ number, name, type01, type02, weight, height, offArt, sprite, vi
               }}
           />
         </CSSTransition>
-        <div className='mv'>
-          <h1 className='mv0 grow'>{getUntillSymbol(capFirstLetter(name))}</h1>
-          {/* <div className='flex justify-between grow'>
+        <div>
+          <h1 className='mv0 grow' style={{ textTransform: 'capitalize' }}>{getUntillSymbol(name)}</h1>
+          <div className='flex justify-between grow'>
             <p className='ml4 mv1'>type: </p>
             <p className='mv1'>{emojiType(type01)}</p>
             <p className='mr4 mv1'>{emojiType(type02)}</p>
@@ -88,7 +84,7 @@ const Card = ({ number, name, type01, type02, weight, height, offArt, sprite, vi
               <p className='ml4 mt1 mb3'>weight: </p>
               <p className='mr4 mt1 mb3'>{(weight)/10} kg</p>
             </div>
-          </div> */}
+          </div>
         </div>  
       </div>
     </Tilt>

@@ -1,10 +1,8 @@
-import React, { Component, createRef } from 'react';
-import CardList from './CardList';
-import PageNav from './PageNav';
-import GenBookmarks from './GenBookmarks';
-//import LoadingBar from './LoadingBar';
-// import Test from './test';
-import './index.css';
+import React, { Component } from 'react';
+import CardList from '../components/CardList';
+import PageNav from '../components/PageNav';
+import GenBookmarks from '../components/GenBookmarks';
+import '../index.css';
 
 class App extends Component {    
   constructor() {
@@ -141,8 +139,6 @@ class App extends Component {
             span={this.state.perPage}
           />
         </div>
-        {/* <LoadingBar loadStatus={this.state.loadStatus}/> */}
-        {/* <Test loadStatus={this.state.loadStatus}/> */}
       </div>
     );
   }
