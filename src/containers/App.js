@@ -28,7 +28,7 @@ const App = () => {
     return combinedArray;
   }
 
-  orderedArray = createOrderedArray();
+  let orderedArray = createOrderedArray();
 
   const getPkNumberAtIndex = (index) => {
     return orderedArray[index];
