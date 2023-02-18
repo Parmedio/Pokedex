@@ -14,6 +14,8 @@ const PageNav = ({ changePage, direction, currentPosition, span }) => {
     btnText = 'prev';
     position = 'left';
   }
+  
+  console.log('pageNav --------------> direction button: ' + nextPokedexPosition)
 
   return(
     <Tilt

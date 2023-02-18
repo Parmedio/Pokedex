@@ -4,11 +4,12 @@ import PageNav from '../components/PageNav';
 import GenBookmarks from '../components/GenBookmarks';
 import '../index.css';
 
-const App = () => {    
+function App() {    
   const [displayedPkmon, setDisplayedPkmon] = useState([]);
-  const [perPage, setPerPage] = useState(12);
   const [viewMode, setViewMode] = useState('artwork');
   const [PokedexIndPos, setPokedexIndPos] = useState(0);
+
+  const perPage = 12
 
   const createOrderedArray = () => {
     var array1 = [];
@@ -26,22 +27,16 @@ const App = () => {
     combinedArray.sort((a, b) => a - b);
   
     return combinedArray;
-  }
+  };
 
   let orderedArray = createOrderedArray();
 
   const getPkNumberAtIndex = (index) => {
     return orderedArray[index];
-  }
-
-  // componentDidMount() {
-  //   let raccolta = []
-  //   this.loadPkmon(raccolta)
-  //   .then(() => this.setState({displayedPkmon: raccolta}))
-  // };
+  };
 
   const viewModeSwitch = () => {
-    viewMode === 'artwork' ? this.setState({viewMode: 'pixel'}) : this.setState({viewMode: 'artwork'})
+    setViewMode(viewMode === 'artwork' ? 'pixel' : 'artwork');
   };
 
   const loadPkmon = async (targetList) => {
@@ -81,11 +76,11 @@ const App = () => {
       counter++;
       currentIndex = Number(startingIndex) + Number(counter);
     }
-    this.setState({ PokedexIndPos: currentIndex });
+    setPokedexIndPos(currentIndex)
   };
 
   const getIndPos = (event) => {
-    let ceil = this.orderedArray.length - this.state.perPage
+    let ceil = orderedArray.length - perPage
     let proposal = event.target.getAttribute('name')
     if (proposal < 0) {
       return 0
@@ -99,19 +94,18 @@ const App = () => {
   const updateContent = () => {
     let raccolta = [];
     loadPkmon(raccolta)
-    .then(() => this.setState({displayedPkmon: raccolta}));
+    .then(() => setDisplayedPkmon(raccolta));
   };
-  
-  const updateCardList = (event) => {
-    this.setState({ PokedexIndPos: getIndPos(event) }, () => {
-      updateContent();
-    });
-  };  
 
-  //console.log('render ---------------> current viewMode: ' + this.state.viewMode)
-  //console.log('render ----------------> pkm list length: ' + this.state.displayedPkmon.length)
-  //console.log('render ----------> current PokedexIndPos: ' + this.state.PokedexIndPos)
-  //const { displayedPkmon, PokedexIndPos, perPage, viewMode } = this.state;
+  const updateCardList = (event) => {
+    setPokedexIndPos(getIndPos(event));
+    updateContent();
+  }; 
+
+  //console.log('render ---------------> current viewMode: ' + viewMode)
+  //console.log('render ----------------> pkm list length: ' + displayedPkmon.length)
+  console.log('App -------------> current PokedexIndPos: ' + PokedexIndPos)
+
   const filteredPkmon = displayedPkmon;
   return(
     <div className='tc'>
