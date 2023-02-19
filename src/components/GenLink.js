@@ -1,7 +1,7 @@
 import React from 'react';
 import Tilt from 'react-parallax-tilt';
 
-const GenLink = ({ btnText, GenStartAt, updateCardList }) => {
+const GenLink = ({ btnText, GenStartAt, skipToGen }) => {
   return(
     <Tilt
       perspective={200}
@@ -24,7 +24,7 @@ const GenLink = ({ btnText, GenStartAt, updateCardList }) => {
       }}
     >
       <button
-        onClick={updateCardList}
+        onClick={skipToGen}
         name={GenStartAt}
         className= 'fw8 bw0 grow'
         style={{

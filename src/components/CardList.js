@@ -1,7 +1,7 @@
 import React from 'react';
 import Card from './Card';
 
-const CardList = ({ filteredPkmon, viewMode }) => {
+const CardList = ({ pkmonArray, viewMode }) => {
   return(
     <div
       style={{
@@ -13,20 +13,19 @@ const CardList = ({ filteredPkmon, viewMode }) => {
         gridAutoFlow: 'row'
       }}
     > 
-      {filteredPkmon
-        //.filter(pkmon => pkmon.number < 1009)
+      {pkmonArray
         .map((pkmon, i) => {
           return (
             <Card
-              number={filteredPkmon[i].number}
-              name={filteredPkmon[i].name}
-              type01={filteredPkmon[i].type01}
-              type02={filteredPkmon[i].type02}
-              weight={filteredPkmon[i].weight}
-              height={filteredPkmon[i].height}
-              offArt={filteredPkmon[i].offArt}
-              sprite={filteredPkmon[i].sprite}
-              key={filteredPkmon[i].number}
+              number={pkmonArray[i].number}
+              name={pkmonArray[i].name}
+              type01={pkmonArray[i].type01}
+              type02={pkmonArray[i].type02}
+              weight={pkmonArray[i].weight}
+              height={pkmonArray[i].height}
+              offArt={pkmonArray[i].offArt}
+              sprite={pkmonArray[i].sprite}
+              key={pkmonArray[i].number}
               viewMode={viewMode}
             />
           );

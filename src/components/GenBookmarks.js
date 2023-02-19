@@ -1,7 +1,7 @@
 import React from 'react';
 import GenLink from './GenLink';
 
-const GenBookmarks = ({ updateCardList }) => {
+const GenBookmarks = ({ skipToGen }) => {
 
   const setBookmark = (number) => {
     let adjust = -1
@@ -42,7 +42,6 @@ const GenBookmarks = ({ updateCardList }) => {
     return result;
   }
   
-  
   let hyperlinks = [];
   for (let i = 1; i <= 9; i++) {
     hyperlinks.push(
@@ -50,10 +49,11 @@ const GenBookmarks = ({ updateCardList }) => {
         key={i}
         btnText={toRoman(i)}
         GenStartAt={setBookmark(i)}
-        updateCardList={updateCardList}
+        skipToGen={skipToGen}
       />
     );
   }
+  
   return(
     <div style={{
       display: 'flex',
@@ -66,7 +66,7 @@ const GenBookmarks = ({ updateCardList }) => {
         key={10}
         btnText='special'
         GenStartAt= {1008}
-        updateCardList={updateCardList}
+        skipToGen={skipToGen}
       />
     </div>
   );
