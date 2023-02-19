@@ -76,7 +76,6 @@ function App() {
       counter++;
       currentIndex = Number(currentIndex) + Number(counter);
     }
-    setPokedexIndPos(currentIndex)
     return newBasket
   };
 
