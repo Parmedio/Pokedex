@@ -2,7 +2,6 @@ import React from 'react';
 import Card from './Card';
 
 const CardList = ({ pkmonArray, viewMode }) => {
-  //console.log(pkmonArray)
   return(
     <div
       style={{

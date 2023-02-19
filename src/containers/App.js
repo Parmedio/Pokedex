@@ -10,7 +10,11 @@ function App() {
   const [PokedexIndPos, setPokedexIndPos] = useState(0);
 
   useEffect(() => {
-    loadPkmon(PokedexIndPos);
+    const appStartUp = async () => {
+      let newPkmon = await loadPkmon(PokedexIndPos);
+      setDisplayedPkmon(newPkmon);
+    }
+    appStartUp();
   }, [])
 
   const perPage = 12
@@ -46,9 +50,7 @@ function App() {
   const loadPkmon = async (index) => {
     let newBasket = [];
     let basketDepth = perPage
-    let counter = 0
     let currentIndex = index
-
     while (newBasket.length < basketDepth ) {
       let pokemonNr = pokeNumberAtIndex(currentIndex)
       const res = await fetch(`https://pokeapi.co/api/v2/pokemon/${pokemonNr}`);
@@ -78,12 +80,11 @@ function App() {
         offArt: OffArt,
         sprite: Sprite
       }
-      counter++;
       newBasket.push(newPkmon);
-      currentIndex = Number(currentIndex) + Number(counter);
+      currentIndex++;
     }
-    setDisplayedPkmon(newBasket);
     setPokedexIndPos(currentIndex);
+    return newBasket
   };
 
   const getIndPos = (event) => {
@@ -92,22 +93,23 @@ function App() {
     if (proposal < 0) {
       return 0
     } else if (proposal >= 0 && proposal <= ceil) {
-      console.log('hai cliccato sul bottone per andare a: ' + proposal)
       return proposal
     } else {
       return ceil
     }
   }
 
-  const updateCardList = (event) => {
-    setPokedexIndPos(getIndPos(event));
-    loadPkmon(PokedexIndPos);
-  }; 
+  const updateCardList = async (event) => {
+    const newIndex = getIndPos(event);
+    setPokedexIndPos(newIndex);
+    let list = await loadPkmon(newIndex);
+    setDisplayedPkmon(list);
+  };
+  
 
   //console.log('render ---------------> current viewMode: ' + viewMode)
   //console.log('render ----------------> pkm list length: ' + displayedPkmon.length)
-  console.log('App -------------> current PokedexIndPos: ' + PokedexIndPos)
-
+  //console.log('App -------------> current PokedexIndPos: ' + PokedexIndPos)
   return(
     <div className='tc'>
       <h1 className='mh0 mt2 mb0 grow' onClick={viewModeSwitch}> Pokedex </h1>
