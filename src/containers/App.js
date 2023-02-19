@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import CardList from '../components/CardList';
 import PageNav from '../components/PageNav';
 import GenBookmarks from '../components/GenBookmarks';
@@ -8,6 +8,10 @@ function App() {
   const [displayedPkmon, setDisplayedPkmon] = useState([]);
   const [viewMode, setViewMode] = useState('artwork');
   const [PokedexIndPos, setPokedexIndPos] = useState(0);
+
+  useEffect(() => {
+    loadPkmon(PokedexIndPos);
+  }, [])
 
   const perPage = 12
 
@@ -40,10 +44,11 @@ function App() {
   };
 
   const loadPkmon = async (index) => {
-    let counter = 0
     let newBasket = [];
     let basketDepth = perPage
+    let counter = 0
     let currentIndex = index
+
     while (newBasket.length < basketDepth ) {
       let pokemonNr = pokeNumberAtIndex(currentIndex)
       const res = await fetch(`https://pokeapi.co/api/v2/pokemon/${pokemonNr}`);
@@ -63,7 +68,7 @@ function App() {
       const OffArt = obj.sprites.other['official-artwork'].front_default;
       const Sprite = obj.sprites.front_default;
    
-      newBasket.push({
+      const newPkmon = {
         number: Order,
         name: Name,
         type01: Type01,
@@ -72,11 +77,13 @@ function App() {
         weight: Weight,
         offArt: OffArt,
         sprite: Sprite
-      },)
+      }
       counter++;
+      newBasket.push(newPkmon);
       currentIndex = Number(currentIndex) + Number(counter);
     }
-    return newBasket
+    setDisplayedPkmon(newBasket);
+    setPokedexIndPos(currentIndex);
   };
 
   const getIndPos = (event) => {
@@ -85,19 +92,16 @@ function App() {
     if (proposal < 0) {
       return 0
     } else if (proposal >= 0 && proposal <= ceil) {
+      console.log('hai cliccato sul bottone per andare a: ' + proposal)
       return proposal
     } else {
       return ceil
     }
   }
-  
-  const updateContent = () => {
-    setDisplayedPkmon(loadPkmon(PokedexIndPos));
-  };
 
   const updateCardList = (event) => {
     setPokedexIndPos(getIndPos(event));
-    updateContent();
+    loadPkmon(PokedexIndPos);
   }; 
 
   //console.log('render ---------------> current viewMode: ' + viewMode)
