@@ -31,7 +31,7 @@ function App() {
 
   let orderedArray = createOrderedArray();
 
-  const getPkNumberAtIndex = (index) => {
+  const pokeNumberAtIndex = (index) => {
     return orderedArray[index];
   };
 
@@ -39,13 +39,13 @@ function App() {
     setViewMode(viewMode === 'artwork' ? 'pixel' : 'artwork');
   };
 
-  const loadPkmon = async (targetList) => {
+  const loadPkmon = async (index) => {
     let counter = 0
-    let startingIndex = PokedexIndPos
+    let newBasket = [];
     let basketDepth = perPage
-    let currentIndex = startingIndex
-    while (targetList.length < basketDepth ) {
-      let pokemonNr = getPkNumberAtIndex(currentIndex)
+    let currentIndex = index
+    while (newBasket.length < basketDepth ) {
+      let pokemonNr = pokeNumberAtIndex(currentIndex)
       const res = await fetch(`https://pokeapi.co/api/v2/pokemon/${pokemonNr}`);
       const obj = await res.json();
       const Order = obj.id;
@@ -63,7 +63,7 @@ function App() {
       const OffArt = obj.sprites.other['official-artwork'].front_default;
       const Sprite = obj.sprites.front_default;
    
-      targetList.push({
+      newBasket.push({
         number: Order,
         name: Name,
         type01: Type01,
@@ -74,9 +74,10 @@ function App() {
         sprite: Sprite
       },)
       counter++;
-      currentIndex = Number(startingIndex) + Number(counter);
+      currentIndex = Number(currentIndex) + Number(counter);
     }
     setPokedexIndPos(currentIndex)
+    return newBasket
   };
 
   const getIndPos = (event) => {
@@ -92,9 +93,7 @@ function App() {
   }
   
   const updateContent = () => {
-    let raccolta = [];
-    loadPkmon(raccolta)
-    .then(() => setDisplayedPkmon(raccolta));
+    setDisplayedPkmon(loadPkmon(PokedexIndPos));
   };
 
   const updateCardList = (event) => {
@@ -106,7 +105,6 @@ function App() {
   //console.log('render ----------------> pkm list length: ' + displayedPkmon.length)
   console.log('App -------------> current PokedexIndPos: ' + PokedexIndPos)
 
-  const filteredPkmon = displayedPkmon;
   return(
     <div className='tc'>
       <h1 className='mh0 mt2 mb0 grow' onClick={viewModeSwitch}> Pokedex </h1>
@@ -119,7 +117,7 @@ function App() {
           span={perPage}
         />
         <div style={{ width: '94%', margin: '0px', display: 'flex', justifyContent: 'center' }}>
-          <CardList  filteredPkmon={filteredPkmon} viewMode={viewMode}/>
+          <CardList  pkmonArray={displayedPkmon} viewMode={viewMode}/>
         </div>
         <PageNav
           changePage={updateCardList}
