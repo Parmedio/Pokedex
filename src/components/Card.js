@@ -25,13 +25,24 @@ const Card = ({ number, name, type01, type02, weight, height, offArt, sprite, vi
     setImgUrl(imgUrl === offArt ? sprite : offArt);
   };
 
-  const getUntillSymbol = (str) => {//487
-    let index = str.indexOf('-');
-    if (index >= 5) {
-      return str.substring(0, index);
+  const separaStringa = (stringa) => {
+    const separatore = '-';
+    const indiceSeparatore = stringa.indexOf(separatore, 4);
+    if (indiceSeparatore !== -1) {
+      const primoPezzo = stringa.slice(0, indiceSeparatore);
+      const secondoPezzo = stringa.slice(indiceSeparatore + separatore.length);
+      if (secondoPezzo.length === 1) {
+        return [stringa.toLowerCase(), ''];
+      } else {
+        return [
+          primoPezzo.toLowerCase(),
+          secondoPezzo
+        ];
+      }
+    } else {
+      return [stringa.toLowerCase(), ''];
     }
-    return str;
-  }
+  };
 
   return(
     <Tilt
@@ -68,9 +79,10 @@ const Card = ({ number, name, type01, type02, weight, height, offArt, sprite, vi
               }}
           />
         </CSSTransition>
-        <div>
-          <h1 className='mv0 grow' style={{ textTransform: 'capitalize' }}>{getUntillSymbol(name)}</h1>
-          <div className='flex justify-between grow'>
+        <div style={{ minHeight: '50px', display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}>
+          <h2 className='mv0 grow' style={{ textTransform: 'capitalize' }}>{separaStringa(name)[0]}</h2>
+          <h3 className='mv0 grow' style={{ textTransform: 'capitalize' }}>{separaStringa(name)[1]}</h3>
+          {/* <div className='flex justify-between grow'>
             <p className='ml4 mv1'>type: </p>
             <p className='mv1'>{emojiType(type01)}</p>
             <p className='mr4 mv1'>{emojiType(type02)}</p>
@@ -84,7 +96,7 @@ const Card = ({ number, name, type01, type02, weight, height, offArt, sprite, vi
               <p className='ml4 mt1 mb3'>weight: </p>
               <p className='mr4 mt1 mb3'>{(weight)/10} kg</p>
             </div>
-          </div>
+          </div> */}
         </div>  
       </div>
     </Tilt>

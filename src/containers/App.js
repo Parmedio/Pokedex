@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import CardList from '../components/CardList';
 import PageNav from '../components/PageNav';
-import GenBookmarks from '../components/GenBookmarks';
+import GenDashboard from '../components/GenDashboard';
+import FilterDashboard from '../components/FilterDashboard';
+//import Switch from '../components/Switch';
 import '../index.css';
 
 function App() {    
@@ -11,8 +13,8 @@ function App() {
 
   useEffect(() => {
     const appStartUp = async () => {
-      let newPkmon = await loadPkmon(PokedexIndPos);
-      setDisplayedPkmon(newPkmon);
+      let list = await loadPkmon(PokedexIndPos);
+      setDisplayedPkmon(list);
     }
     appStartUp();
   }, [])
@@ -112,8 +114,19 @@ function App() {
   //console.log('App -------------> current PokedexIndPos: ' + PokedexIndPos)
   return(
     <div className='tc'>
-      <h1 className='mh0 mt2 mb0 grow' onClick={viewModeSwitch}> Pokedex </h1>
-      <GenBookmarks skipToGen={updateCardList}/>
+      <div style={{ width: '100%', display: 'inline-flex', flexDirection: 'row', justifyContent: 'space-around', alignItems: 'center' }}>
+        <p className='fw8 mh3 mv0 grow' onClick={viewModeSwitch}> Pokedex </p>
+        <div style={{ display: 'inline-flex', flexDirection: 'row', justifyContent: 'space-around', alignItems: 'center' }}>
+          <p className='fw8 mh3 mv0 grow'> Generation </p>
+          <GenDashboard skipToGen={updateCardList}/>
+        </div>
+        <p className='fw8'> Switch pixel/artwork </p>
+        <div style={{ display: 'inline-flex', flexDirection: 'row', justifyContent: 'space-around', alignItems: 'center' }}>
+          <p className='fw8 mh3 mv0 grow'> filter </p>
+          <FilterDashboard skipToGen={updateCardList}/>
+        </div>
+      </div>
+
       <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'center', alignItems: 'center' }}>
         <PageNav
           changePage={updateCardList}

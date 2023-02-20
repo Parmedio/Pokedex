@@ -19,7 +19,7 @@ const GenLink = ({ btnText, GenStartAt, skipToGen }) => {
         padding: '0px',
         margin: '10px 3px 10px 3px',
         width: 'auto',
-        minWidth: '46px',
+        minWidth: 'auto',
         borderRadius: '24px',
       }}
     >

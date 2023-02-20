@@ -1,7 +1,7 @@
 import React from 'react';
 import GenLink from './GenLink';
 
-const GenBookmarks = ({ skipToGen }) => {
+const FilterDashbord = ({ skipToGen }) => {
 
   const setBookmark = (number) => {
     let adjust = -1
@@ -43,7 +43,7 @@ const GenBookmarks = ({ skipToGen }) => {
   }
   
   let hyperlinks = [];
-  for (let i = 1; i <= 9; i++) {
+  for (let i = 1; i <= 3; i++) {
     hyperlinks.push(
       <GenLink
         key={i}
@@ -58,7 +58,8 @@ const GenBookmarks = ({ skipToGen }) => {
     <div style={{
       display: 'flex',
       flexDirection: 'row',
-      justifyContent: 'center'
+      justifyContent: 'center',
+      width: '100%',
       }}
     >
       {hyperlinks}
@@ -72,4 +73,4 @@ const GenBookmarks = ({ skipToGen }) => {
   );
 }
 
-export default GenBookmarks
+export default FilterDashbord
