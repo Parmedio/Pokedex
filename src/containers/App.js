@@ -3,8 +3,10 @@ import CardList from '../components/CardList';
 import PageNav from '../components/PageNav';
 import GenDashboard from '../components/GenDashboard';
 import FilterDashboard from '../components/FilterDashboard';
+//import Switch from '@mui/material/Switch'; <Switch onClick={viewModeSwitch}/>
 //import Switch from '../components/Switch';
 import '../index.css';
+import Switch01 from '../components/Switch01.js'
 
 function App() {    
   const [displayedPkmon, setDisplayedPkmon] = useState([]);
@@ -108,7 +110,6 @@ function App() {
     setDisplayedPkmon(list);
   };
   
-
   //console.log('render ---------------> current viewMode: ' + viewMode)
   //console.log('render ----------------> pkm list length: ' + displayedPkmon.length)
   //console.log('App -------------> current PokedexIndPos: ' + PokedexIndPos)
@@ -117,16 +118,18 @@ function App() {
       <div style={{ width: '100%', display: 'inline-flex', flexDirection: 'row', justifyContent: 'space-around', alignItems: 'center' }}>
         <p className='fw8 mh3 mv0 grow' onClick={viewModeSwitch}> Pokedex </p>
         <div style={{ display: 'inline-flex', flexDirection: 'row', justifyContent: 'space-around', alignItems: 'center' }}>
-          <p className='fw8 mh3 mv0 grow'> Generation </p>
+          <p className='fw8 mh2 mv0 grow'> Generation </p>
           <GenDashboard skipToGen={updateCardList}/>
         </div>
-        <p className='fw8'> Switch pixel/artwork </p>
-        <div style={{ display: 'inline-flex', flexDirection: 'row', justifyContent: 'space-around', alignItems: 'center' }}>
-          <p className='fw8 mh3 mv0 grow'> filter </p>
-          <FilterDashboard skipToGen={updateCardList}/>
+        <div style={{ display: 'inline-flex', justifyContent: 'center', alignItems: 'center' }}>
+          <p className='fw8 mh2'> pixel </p>
+          <div style={{ marginLeft: '11px', marginRight: '-16px' }}>
+            <Switch01 viewModeSwitch={viewModeSwitch}/>
+          </div>
+          <p className='fw8 mh2'> artwork </p>
         </div>
+        <p className='fw8 mh2 mv0 grow'> filter </p>
       </div>
-
       <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'center', alignItems: 'center' }}>
         <PageNav
           changePage={updateCardList}
