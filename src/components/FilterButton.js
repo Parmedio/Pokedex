@@ -1,7 +1,7 @@
 import React from 'react';
 import Tilt from 'react-parallax-tilt';
 
-const FilterButton = ({ btnText, GenStartAt, skipToGen }) => {
+const FilterButton = ({ typeSymbol, typeText }) => {
   return(
     <Tilt
       perspective={200}
@@ -16,11 +16,10 @@ const FilterButton = ({ btnText, GenStartAt, skipToGen }) => {
       className= 'fw8 bg-light-gray ba bw2 b--moon-gray'
     >
       <button
-        onClick={skipToGen}
-        name={GenStartAt}
+        name={typeText}
         className= 'fw8 bw0 grow shadow-5'
       >
-        {btnText}
+        {typeSymbol}
       </button>
     </Tilt>
   );

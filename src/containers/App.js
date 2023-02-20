@@ -114,20 +114,22 @@ function App() {
   //console.log('render ----------------> pkm list length: ' + displayedPkmon.length)
   //console.log('App -------------> current PokedexIndPos: ' + PokedexIndPos)
   return(
-    <div className='tc'>
-      <div style={{ height: '86px', overflow: 'hidden', width: '100%', display: 'inline-flex', flexDirection: 'row', justifyContent: 'space-around', alignItems: 'center' }}>
-        <img
-            className='grow'
-            src={'https://1.bp.blogspot.com/-0V4itR_v87M/UtsCF-ehNYI/AAAAAAAABjU/UEQ5Jiy_85o/s1600/pokedex-3d-logo.png'}
-            alt={`Pokedex`}
-            id= 'pokedex'
-            style={{
-              maxWidth: '400px',
-              height: 'auto',
-              marginTop: '-20px',
-              marginBottom:'-24px' ,
+    <div className='tc mt1'>
+      <div style={{ width: '100%', display: 'flex', flexDirection: 'row', justifyContent: 'space-around', alignItems: 'center' }}>
+        <div style={{ height: '86px', overflow: 'hidden' }}>
+          <img 
+              className='grow'
+              src={'https://1.bp.blogspot.com/-0V4itR_v87M/UtsCF-ehNYI/AAAAAAAABjU/UEQ5Jiy_85o/s1600/pokedex-3d-logo.png'}
+              alt={`Pokedex`}
+              id= 'pokedex'
+              style={{
+                maxWidth: '400px',
+                height: 'auto',
+                marginTop: '-12px',
+                marginBottom:'-18px' ,
               }}
           />
+        </div>  
         <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-around', alignItems: 'start' }}>
           <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-around', alignItems: 'center', minHeight: '43px' }}>
             <p className='fw8 mh2 mv0 grow' style={{ minWidth: '88px', textAlign: 'end' }}> Generation </p>

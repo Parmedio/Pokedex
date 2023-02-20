@@ -1,55 +1,17 @@
 import React from 'react';
 import FilterButton from './FilterButton';
 
-const FilterDashbord = ({ skipToGen }) => {
+const FilterDashbord = () => {
 
-  const setBookmark = (number) => {
-    let adjust = -1
-    switch (number) {
-      case 1:
-        return 1 + adjust;
-      case 2:
-        return 152 + adjust;
-      case 3:
-        return 252 + adjust;
-      case 4:
-        return 387 + adjust;
-      case 5:
-        return 494 + adjust;
-      case 6:
-        return 650 + adjust;
-      case 7:
-        return 722 + adjust;
-      case 8:
-        return 810 + adjust;
-      case 9:
-        return 906 + adjust;
-      default:
-        return undefined;
-    }
-  };
-
-  const toRoman = (num) => {
-    var result = '';
-    var decimal = [1000, 900, 500, 400, 100, 90, 50, 40, 10, 9, 5, 4, 1];
-    var roman = ["M", "CM", "D", "CD", "C", "XC", "L", "XL", "X", "IX", "V", "IV", "I"];
-    for (var i = 0; i <= decimal.length; i++) {
-      while (num % decimal[i] < num) {
-        result += roman[i];
-        num -= decimal[i];
-      }
-    }
-    return result;
-  }
+  const emojiType = [['fire','🔥'], ['flying','🪶'], ['water','💧'], ['grass','🌳'], ['poison','☠️'], ['bug','🪲'], ['dark','🌑'], ['dragon','🐲'], ['electric','⚡'], ['fairy','🧚‍♀️'], ['fighting','🥊'], ['ghost','👻'], ['ground','⛰️'], ['ice','❄️'], ['psychic','🌀'], ['rock','🪨'], ['normal','☀️'], ['steel','⚙️']]
   
   let filters = [];
-  for (let i = 1; i <= 3; i++) {
+  for (let i = 0; i < emojiType.length; i++) {
     filters.push(
       <FilterButton
         key={i}
-        btnText={toRoman(i)}
-        GenStartAt={setBookmark(i)}
-        skipToGen={skipToGen}
+        typeSymbol={emojiType[i][1]}
+        typeText={emojiType[i][0]}
       />
     );
   }

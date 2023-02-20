@@ -1,124 +1,146 @@
 const emojiType = (arg) => {
 if (arg === 'fire') {
-    arg = '🔥';
+  arg = '🔥';
 } else if (arg === 'flying') {
-    arg = '🪶';
+  arg = '🪶';
 } else if (arg === 'water') {
-    arg = '💧';
+  arg = '💧';
 } else if (arg === 'grass') {
-    arg = '🌳';
+  arg = '🌳';
 } else if (arg === 'poison') {
-    arg = '☠️';
+  arg = '☠️';
 } else if (arg === 'bug') {
-    arg = '🪲';
+  arg = '🪲';
 } else if (arg === 'dark') {
-    arg = '🌑';
+  arg = '🌑';
 } else if (arg === 'dragon') {
-    arg = '🐲';
+  arg = '🐲';
 } else if (arg === 'electric') {
-    arg = '⚡';
+  arg = '⚡';
 } else if (arg === 'fairy') {
-    arg = '🧚‍♀️';
+  arg = '🧚‍♀️';
 } else if (arg === 'fighting') {
-    arg = '🥊';
+  arg = '🥊';
 } else if (arg === 'ghost') {
-    arg = '👻';
+  arg = '👻';
 } else if (arg === 'ground') {
-    arg = '⛰️';
+  arg = '⛰️';
 } else if (arg === 'ice') {
-    arg = '❄️';
+  arg = '❄️';
 } else if (arg === 'psychic') {
-    arg = '🌀';
+  arg = '🌀';
 } else if (arg === 'rock') {
-    arg = '🪨';
+  arg = '🪨';
 } else if (arg === 'normal') {
-    arg = '☀️';
+  arg = '☀️';
 } else if (arg === 'steel') {
-    arg = '⚙️';
+  arg = '⚙️';
 } 
 return arg;
 }
 // unificare palette colori e mettere switch invece di if
 const paletteLight = (arg) => {
 if (arg === 'fire') {
-    arg = '#ff7a7a';
+  arg = '#ff7a7a';
 } else if (arg === 'flying') { 
-    arg = '#d4d4d4';
+  arg = '#d4d4d4';
 } else if (arg === 'water') { 
-    arg = '#99ddff';
+  arg = '#99ddff';
 } else if (arg === 'grass') { 
-    arg = '#83e97c';
+  arg = '#83e97c';
 } else if (arg === 'poison') { 
-    arg = '#c37ce9';
+  arg = '#c37ce9';
 } else if (arg === 'bug') { 
-    arg = '#61ae6e';
+  arg = '#61ae6e';
 } else if (arg === 'dark') { 
-    arg = '#34304b';
+  arg = '#34304b';
 } else if (arg === 'dragon') { 
-    arg = '#62a78d';
+  arg = '#62a78d';
 } else if (arg === 'electric') { 
-    arg = '#ffe894';
+  arg = '#ffe894';
 } else if (arg === 'fairy') { 
-    arg = '#9af4cd';
+  arg = '#9af4cd';
 } else if (arg === 'fighting') { 
-    arg = '#eaa52e';
+  arg = '#eaa52e';
 } else if (arg === 'ghost') {
-    arg = '#d178f2';
+  arg = '#d178f2';
 } else if (arg === 'ground') { 
-    arg = '#887e6d';
+  arg = '#887e6d';
 } else if (arg === 'ice') { 
-    arg = '#fafafa';
+  arg = '#fafafa';
 } else if (arg === 'psychic') { 
-    arg = '#fd955d';
+  arg = '#fd955d';
 } else if (arg === 'rock') { 
-    arg = '#8c8c8c';
+  arg = '#8c8c8c';
 } else if (arg === 'normal') { 
-    arg = '#ecf5a3';
+  arg = '#ecf5a3';
 } else if (arg === 'steel') { 
-    arg = '#b1bfce';
+  arg = '#b1bfce';
 } 
 return arg;
 }
 
 const paletteBold = (arg) => {
 if (arg === 'fire') {
-    arg = '#ff4d4d';
+  arg = '#ff4d4d';
 } else if (arg === 'flying') { 
-    arg = '#a3a3a3';
+  arg = '#a3a3a3';
 } else if (arg === 'water') { 
-    arg = '#42d0ff';
+  arg = '#42d0ff';
 } else if (arg === 'grass') { 
-    arg = '#52cb66';
+  arg = '#52cb66';
 } else if (arg === 'poison') {
-    arg = '#ab52cb';
+  arg = '#ab52cb';
 } else if (arg === 'bug') {
-    arg = '#ca8102';
+  arg = '#ca8102';
 } else if (arg === 'dark') {
-    arg = '#3d2424';
+  arg = '#3d2424';
 } else if (arg === 'dragon') {
-    arg = '#408b2d';
+  arg = '#408b2d';
 } else if (arg === 'electric') {
-    arg = '#fbff0a';
+  arg = '#fbff0a';
 } else if (arg === 'fairy') {
-    arg = '#da48e5';
+  arg = '#da48e5';
 } else if (arg === 'fighting') {
-    arg = '#ff2e2e';
+  arg = '#ff2e2e';
 } else if (arg === 'ghost') {
-    arg = '#403d76';
+  arg = '#403d76';
 } else if (arg === 'ground') {
-    arg = '#88593a';
+  arg = '#88593a';
 } else if (arg === 'ice') { 
-    arg = '#8ae2ff';
+  arg = '#8ae2ff';
 } else if (arg === 'psychic') { 
-    arg = '#ff8af5';
+  arg = '#ff8af5';
 } else if (arg === 'rock') { 
-    arg = '#4c4c57';
+  arg = '#4c4c57';
 } else if (arg === 'normal') { 
-    arg = '#d0ac49';
+  arg = '#d0ac49';
 } else if (arg === 'steel') { 
-    arg = '#4b727c';
+  arg = '#4b727c';
 } 
 return arg;
 }
 
-export { paletteLight, paletteBold, emojiType };
+const typeReferenceMaster = [
+    ['fire', '🔥', '#ff7a7a', '#ff4d4d'],
+    ['flying', '🪶', '#d4d4d4', '#a3a3a3'],
+    ['water', '💧', '#99ddff', '#42d0ff'],
+    ['grass', '🌳', '#83e97c', '#52cb66'],
+    ['poison', '☠️', '#c37ce9', '#ab52cb'],
+    ['bug', '🪲', '#61ae6e', '#ca8102'],
+    ['dark', '🌑', '#34304b', '#3d2424'],
+    ['dragon', '🐲', '#62a78d', '#408b2d'],
+    ['electric', '⚡', '#ffe894', '#fbff0a'],
+    ['fairy', '🧚‍♀️', '#9af4cd', '#da48e5'],
+    ['fighting', '🥊', '#eaa52e', '#ff2e2e'],
+    ['ghost', '👻', '#d178f2', '#403d76'],
+    ['ground', '⛰️', '#887e6d', '#88593a'],
+    ['ice', '❄️', '#fafafa', '#8ae2ff'],
+    ['psychic', '🌀', '#fd955d', '#ff8af5'],
+    ['rock', '🪨', '#8c8c8c', '#4c4c57'],
+    ['normal', '☀️', '#ecf5a3', '#d0ac49'],
+    ['steel', '⚙️', '#b1bfce', '#4b727c']
+  ]
+
+
+export { paletteLight, paletteBold, emojiType, typeReferenceMaster };
