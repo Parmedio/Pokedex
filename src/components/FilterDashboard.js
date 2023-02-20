@@ -1,5 +1,5 @@
 import React from 'react';
-import GenLink from './GenLink';
+import FilterButton from './FilterButton';
 
 const FilterDashbord = ({ skipToGen }) => {
 
@@ -42,10 +42,10 @@ const FilterDashbord = ({ skipToGen }) => {
     return result;
   }
   
-  let hyperlinks = [];
+  let filters = [];
   for (let i = 1; i <= 3; i++) {
-    hyperlinks.push(
-      <GenLink
+    filters.push(
+      <FilterButton
         key={i}
         btnText={toRoman(i)}
         GenStartAt={setBookmark(i)}
@@ -62,13 +62,7 @@ const FilterDashbord = ({ skipToGen }) => {
       width: '100%',
       }}
     >
-      {hyperlinks}
-      <GenLink
-        key={10}
-        btnText='special'
-        GenStartAt= {1008}
-        skipToGen={skipToGen}
-      />
+      {filters}
     </div>
   );
 }

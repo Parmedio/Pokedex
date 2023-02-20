@@ -65,7 +65,7 @@ const GenDashboard = ({ skipToGen }) => {
       {hyperlinks}
       <GenLink
         key={10}
-        btnText='special'
+        btnText='  special  '
         GenStartAt= {1008}
         skipToGen={skipToGen}
       />

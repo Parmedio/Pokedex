@@ -1,7 +1,7 @@
 import React from 'react';
 import Tilt from 'react-parallax-tilt';
 
-const GenLink = ({ btnText, GenStartAt, skipToGen }) => {
+const FilterButton = ({ btnText, GenStartAt, skipToGen }) => {
   return(
     <Tilt
       perspective={200}
@@ -13,12 +13,12 @@ const GenLink = ({ btnText, GenStartAt, skipToGen }) => {
       transitionSpeed='800' 
       scale={1.24}
       reset='true'
-      className= 'fw8 bg-light-gray ba bw2 b--moon-gray genTilt'
+      className= 'fw8 bg-light-gray ba bw2 b--moon-gray'
     >
       <button
         onClick={skipToGen}
         name={GenStartAt}
-        className= 'fw8 bw0 grow shadow-5 genButton'
+        className= 'fw8 bw0 grow shadow-5'
       >
         {btnText}
       </button>
@@ -26,4 +26,4 @@ const GenLink = ({ btnText, GenStartAt, skipToGen }) => {
   );
 }
 
-export default GenLink
+export default FilterButton

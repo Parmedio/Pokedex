@@ -115,11 +115,28 @@ function App() {
   //console.log('App -------------> current PokedexIndPos: ' + PokedexIndPos)
   return(
     <div className='tc'>
-      <div style={{ width: '100%', display: 'inline-flex', flexDirection: 'row', justifyContent: 'space-around', alignItems: 'center' }}>
-        <p className='fw8 mh3 mv0 grow' onClick={viewModeSwitch}> Pokedex </p>
-        <div style={{ display: 'inline-flex', flexDirection: 'row', justifyContent: 'space-around', alignItems: 'center' }}>
-          <p className='fw8 mh2 mv0 grow'> Generation </p>
-          <GenDashboard skipToGen={updateCardList}/>
+      <div style={{ height: '86px', overflow: 'hidden', width: '100%', display: 'inline-flex', flexDirection: 'row', justifyContent: 'space-around', alignItems: 'center' }}>
+        <img
+            className='grow'
+            src={'https://1.bp.blogspot.com/-0V4itR_v87M/UtsCF-ehNYI/AAAAAAAABjU/UEQ5Jiy_85o/s1600/pokedex-3d-logo.png'}
+            alt={`Pokedex`}
+            id= 'pokedex'
+            style={{
+              maxWidth: '400px',
+              height: 'auto',
+              marginTop: '-20px',
+              marginBottom:'-24px' ,
+              }}
+          />
+        <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-around', alignItems: 'start' }}>
+          <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-around', alignItems: 'center', minHeight: '43px' }}>
+            <p className='fw8 mh2 mv0 grow' style={{ minWidth: '88px', textAlign: 'end' }}> Generation </p>
+            <GenDashboard skipToGen={updateCardList}/>
+          </div>
+          <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-around', alignItems: 'center', minHeight: '43px' }}>
+            <p className='fw8 mh2 mv0 grow' style={{ minWidth: '88px', textAlign: 'end' }}> filter </p>
+            <FilterDashboard skipToGen={updateCardList}/>
+          </div>
         </div>
         <div style={{ display: 'inline-flex', justifyContent: 'center', alignItems: 'center' }}>
           <p className='fw8 mh2'> pixel </p>
@@ -128,7 +145,6 @@ function App() {
           </div>
           <p className='fw8 mh2'> artwork </p>
         </div>
-        <p className='fw8 mh2 mv0 grow'> filter </p>
       </div>
       <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'center', alignItems: 'center' }}>
         <PageNav
