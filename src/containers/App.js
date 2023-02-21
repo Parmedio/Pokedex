@@ -11,6 +11,7 @@ function App() {
   const [displayedPkmon, setDisplayedPkmon] = useState([]);
   const [viewMode, setViewMode] = useState('artwork');
   const [PokedexIndPos, setPokedexIndPos] = useState(0);
+  const [ load, setLoad ] = useState(0.5)
 
   useEffect(() => {
     const appStartUp = async () => {
@@ -51,6 +52,7 @@ function App() {
   };
 
   const loadPkmon = async (index) => {
+    let carico = 0;
     let newBasket = [];
     let basketDepth = perPage
     let currentIndex = index
@@ -85,8 +87,11 @@ function App() {
       }
       newBasket.push(newPkmon);
       currentIndex++;
+      carico++;
+      setLoad((carico/12)*100)
     }
     setPokedexIndPos(currentIndex);
+    setTimeout(() => {setLoad(0.5)}, 400)
     return newBasket
   };
 
@@ -149,7 +154,7 @@ function App() {
           </div>
         </div>
       </div>
-      <LoadingBar />
+      <LoadingBar loadStatus={load}/>
       <div className = 'flex justify-center items-center'>
         <PageNav
           changePage={updateCardList}
@@ -157,7 +162,7 @@ function App() {
           currentPosition={PokedexIndPos}
           span={perPage}
         />
-        <div style={{ width: '94%', margin: '0px', display: 'flex', justifyContent: 'center' }}>
+        <div style={{ width: '94%', margin: '0px' }}>
           <CardList  pkmonArray={displayedPkmon} viewMode={viewMode}/>
         </div>
         <PageNav
