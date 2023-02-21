@@ -115,7 +115,7 @@ function App() {
   //console.log('App -------------> current PokedexIndPos: ' + PokedexIndPos)
   return(
     <div className='tc mt1'>
-      <div style={{ width: '100%', display: 'flex', flexDirection: 'row', justifyContent: 'space-around', alignItems: 'center' }}>
+      <div style={{ width: '100%' }} className = 'flex justify-around items-center'>
         <div style={{ height: '86px', overflow: 'hidden' }}>
           <img 
               className='grow'
@@ -130,23 +130,41 @@ function App() {
               }}
           />
         </div>  
-        <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-around', alignItems: 'start' }}>
-          <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-around', alignItems: 'center', minHeight: '43px' }}>
-            <p className='fw8 mh2 mv0 grow' style={{ minWidth: '88px', textAlign: 'end' }}> Generation </p>
-            <GenDashboard skipToGen={updateCardList}/>
+        <div className = 'flex flex-column justify-around items-start'>
+              
+
+          <div style={{ display: 'flex', flexDirection: 'row'}}>
+
+
+            <div className = 'flex justify-around items-center' style={{ minHeight: '43px' }}>
+              <p className='fw8 mh2 mv0 grow' style={{ minWidth: '88px', textAlign: 'end' }}> Generation </p>
+              <GenDashboard skipToGen={updateCardList}/>
+            </div>
+
+
+            <div className = 'flex justify-center items-center ml5'>
+              <p className='fw8 mh2 grow mv0'> pixel </p>
+              <div style={{ marginLeft: '11px', marginRight: '-16px' }}>
+                <Switch01 viewModeSwitch={viewModeSwitch}/>
+              </div>
+              <p className='fw8 mh2 grow mv0'> artwork </p>
+            </div>
+
+
           </div>
-          <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-around', alignItems: 'center', minHeight: '43px' }}>
+
+
+
+
+          <div className = 'flex justify-around items-center' style={{ minHeight: '43px' }}>
             <p className='fw8 mh2 mv0 grow' style={{ minWidth: '88px', textAlign: 'end' }}> filter </p>
             <FilterDashboard skipToGen={updateCardList}/>
           </div>
+
+
+
         </div>
-        <div style={{ display: 'inline-flex', justifyContent: 'center', alignItems: 'center' }}>
-          <p className='fw8 mh2'> pixel </p>
-          <div style={{ marginLeft: '11px', marginRight: '-16px' }}>
-            <Switch01 viewModeSwitch={viewModeSwitch}/>
-          </div>
-          <p className='fw8 mh2'> artwork </p>
-        </div>
+
       </div>
       <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'center', alignItems: 'center' }}>
         <PageNav

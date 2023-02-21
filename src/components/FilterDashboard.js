@@ -1,17 +1,20 @@
 import React from 'react';
 import FilterButton from './FilterButton';
+import { getEmoji, getLightColor, getBoldColor } from './library';
 
 const FilterDashbord = () => {
 
-  const emojiType = [['fire','🔥'], ['flying','🪶'], ['water','💧'], ['grass','🌳'], ['poison','☠️'], ['bug','🪲'], ['dark','🌑'], ['dragon','🐲'], ['electric','⚡'], ['fairy','🧚‍♀️'], ['fighting','🥊'], ['ghost','👻'], ['ground','⛰️'], ['ice','❄️'], ['psychic','🌀'], ['rock','🪨'], ['normal','☀️'], ['steel','⚙️']]
+  const emojiType = ['flying', 'water', 'ice', 'grass', 'dragon', 'electric', 'normal', 'bug', 'fire', 'fighting', 'poison', 'fairy', 'psychic', 'steel', 'ghost', 'rock', 'dark', 'ground']
   
   let filters = [];
   for (let i = 0; i < emojiType.length; i++) {
     filters.push(
       <FilterButton
         key={i}
-        typeSymbol={emojiType[i][1]}
-        typeText={emojiType[i][0]}
+        typeSymbol = {getEmoji(emojiType[i])}
+        typeText = {emojiType[i]}
+        boldColor = {getBoldColor(emojiType[i])}
+        lightColor = {getLightColor(emojiType[i])}
       />
     );
   }

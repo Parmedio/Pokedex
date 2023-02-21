@@ -45,6 +45,6 @@ code {
   padding: 6px 2px 6px 2px;
   min-width: 30px;
   border-radius: 24px;
-  background-color: rgba(129, 246, 254, 0);
+  background-color: #81f6fe00;
   z-index: 900;
 }

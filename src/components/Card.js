@@ -1,16 +1,16 @@
 import React, { useState, useEffect } from 'react';
 import Tilt from 'react-parallax-tilt';
 import { CSSTransition } from "react-transition-group";
-import { paletteLight, paletteBold, emojiType } from './library';
+import { getEmoji, getLightColor, getBoldColor } from './library';
 
 const Card = ({ number, name, type01, type02, weight, height, offArt, sprite, viewMode }) => {
   
   const bgSetter = (arg1, arg2) => {
     let background;
     if (arg2 === '') {
-      background = `linear-gradient(0deg, ${paletteLight(arg1)}, ${paletteBold(arg1)})`;
+      background = `linear-gradient(0deg, ${getLightColor(arg1)}, ${getBoldColor(arg1)})`;
     } else {
-      background = `linear-gradient(0deg, ${paletteLight(arg2)}, ${paletteBold(arg1)})`;
+      background = `linear-gradient(0deg, ${getLightColor(arg2)}, ${getBoldColor(arg1)})`;
     }
     return background;
   }
@@ -84,8 +84,8 @@ const Card = ({ number, name, type01, type02, weight, height, offArt, sprite, vi
           <h3 className='mv0 grow' style={{ textTransform: 'capitalize' }}>{separaStringa(name)[1]}</h3>
           {/* <div className='flex justify-between grow'>
             <p className='ml4 mv1'>type: </p>
-            <p className='mv1'>{emojiType(type01)}</p>
-            <p className='mr4 mv1'>{emojiType(type02)}</p>
+            <p className='mv1'>{getEmoji(type01)}</p>
+            <p className='mr4 mv1'>{getEmoji(type02)}</p>
           </div>
           <div>
             <div className='flex justify-between grow'>
