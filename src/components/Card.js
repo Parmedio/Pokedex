@@ -79,21 +79,30 @@ const Card = ({ number, name, type01, type02, weight, height, offArt, sprite, vi
               }}
           />
         </CSSTransition>
-        <div style={{ minHeight: '50px', display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}>
-          <h2 className='mv0 grow' style={{ textTransform: 'capitalize' }}>{separaStringa(name)[0]}</h2>
-          <h3 className='mv0 grow' style={{ textTransform: 'capitalize' }}>{separaStringa(name)[1]}</h3>
-          {/* <div className='flex justify-between grow'>
-            <p className='ml4 mv1'>type: </p>
-            <p className='mv1'>{getEmoji(type01)}</p>
-            <p className='mr4 mv1'>{getEmoji(type02)}</p>
+        <div>
+          <div 
+            className='flex flex-column justify-center items-center br3 mh1 mb1' 
+            style={{ minHeight: '50px', background: 'rgba(255, 255, 255, 0.2)' }}
+          >
+            <p className='ma0' style={{ fontSize: '22px', textTransform: 'capitalize' }}>
+              {separaStringa(name)[0]}
+            </p>
+            <p className='mv0' style={{ fontSize: '18px', textTransform: 'capitalize' }}>
+              {separaStringa(name)[1]}
+            </p>
           </div>
-          <div>
+          {/* <div>
             <div className='flex justify-between grow'>
-              <p className='ml4 mv0'>height: </p>
+              <p className='ml4 mv1'>type: </p>
+              <p className='mv1'>{getEmoji(type01)}</p>
+              <p className='mr4 mv1'>{getEmoji(type02)}</p>
+            </div>
+            <div className='flex justify-between grow'>
+              <p className='ml4 mv0'>height : </p>
               <p className='mr4 mv0'>{(height)/10} m</p>
             </div>
             <div className='flex justify-between grow'>
-              <p className='ml4 mt1 mb3'>weight: </p>
+              <p className='ml4 mt1 mb3'>weight :</p>
               <p className='mr4 mt1 mb3'>{(weight)/10} kg</p>
             </div>
           </div> */}

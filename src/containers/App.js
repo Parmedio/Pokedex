@@ -3,8 +3,7 @@ import CardList from '../components/CardList';
 import PageNav from '../components/PageNav';
 import GenDashboard from '../components/GenDashboard';
 import FilterDashboard from '../components/FilterDashboard';
-//import Switch from '@mui/material/Switch'; <Switch onClick={viewModeSwitch}/>
-//import Switch from '../components/Switch';
+import LoadingBar from '../components/LoadingBar';
 import '../index.css';
 import Switch01 from '../components/Switch01.js'
 
@@ -114,8 +113,8 @@ function App() {
   //console.log('render ----------------> pkm list length: ' + displayedPkmon.length)
   //console.log('App -------------> current PokedexIndPos: ' + PokedexIndPos)
   return(
-    <div className='tc mt1'>
-      <div style={{ width: '100%' }} className = 'flex justify-around items-center'>
+    <div className='tc'>
+      <div style={{ width: '100%' }} className = 'flex justify-around items-center mv1'>
         <div style={{ height: '86px', overflow: 'hidden' }}>
           <img 
               className='grow'
@@ -129,44 +128,29 @@ function App() {
                 marginBottom:'-18px' ,
               }}
           />
-        </div>  
+        </div>
         <div className = 'flex flex-column justify-around items-start'>
-              
-
-          <div style={{ display: 'flex', flexDirection: 'row'}}>
-
-
+          <div className = 'flex justify-between' style={{ width: '896px'}}>
             <div className = 'flex justify-around items-center' style={{ minHeight: '43px' }}>
-              <p className='fw8 mh2 mv0 grow' style={{ minWidth: '88px', textAlign: 'end' }}> Generation </p>
+              <p className='fw1 mh2 mv0 grow tr' style={{ minWidth: '88px' }}> Generation </p>
               <GenDashboard skipToGen={updateCardList}/>
             </div>
-
-
-            <div className = 'flex justify-center items-center ml5'>
-              <p className='fw8 mh2 grow mv0'> pixel </p>
+            <div className = 'flex justify-center items-center' style={{ minHeight: '43px' }}>
+              <p className='fw1 mh2 grow mv0'> pixel </p>
               <div style={{ marginLeft: '11px', marginRight: '-16px' }}>
                 <Switch01 viewModeSwitch={viewModeSwitch}/>
               </div>
-              <p className='fw8 mh2 grow mv0'> artwork </p>
+              <p className='fw1 mh2 grow mv0'> artwork </p>
             </div>
-
-
           </div>
-
-
-
-
           <div className = 'flex justify-around items-center' style={{ minHeight: '43px' }}>
-            <p className='fw8 mh2 mv0 grow' style={{ minWidth: '88px', textAlign: 'end' }}> filter </p>
+            <p className='fw1 mh2 mv0 grow tr' style={{ minWidth: '88px' }}> filter </p>
             <FilterDashboard skipToGen={updateCardList}/>
           </div>
-
-
-
         </div>
-
       </div>
-      <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'center', alignItems: 'center' }}>
+      <LoadingBar />
+      <div className = 'flex justify-center items-center'>
         <PageNav
           changePage={updateCardList}
           direction='previous'

@@ -13,17 +13,16 @@ const LoadingBar = ({ loadStatus }) => {
       transitionSpeed='800' 
       scale={1}
       reset='true'
-      className= 'fw8 bg-light-gray ba bw2 b--moon-gray'
       style={{
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
         padding: '0px 0px 0px 0px',
-        margin: '10px 3px 10px 3px',
+        margin: '6px 3px 4px 3px',
         width: `${loadStatus}%`,
         minWidth: '160px',
         borderRadius: '24px',
-        //borderColor: '#0080a3',
+        borderColor: '#00c8ff',
       }}
     >
       <button
@@ -35,16 +34,15 @@ const LoadingBar = ({ loadStatus }) => {
           flexDirection: 'row',
           alignItems: 'center',
           justifyContent: 'center',
-          padding: '6px 6px 6px 6px',
+          padding: '4px 6px 4px 6px',
           margin: '0px 0px 0px 0px',
           width: '100%',
           minWidth: '38px',
           borderRadius: '24px',
-          backgroundColor: '#85e4ff',
-          color:'#0080a3'
+          background: 'linear-gradient(90deg, #00c8ff, #245bff) no-repeat fixed',
         }}
       >
-        {'l o a d i n g . . .'}
+        {/* {'l o a d i n g . . .'} */}
       </button>
     </Tilt>
   );

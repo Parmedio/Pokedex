@@ -32,7 +32,7 @@ const FilterButton = ({ typeSymbol, typeText, boldColor, lightColor }) => {
           padding: '6px 2px 6px 2px',
           minWidth: '30px',
           borderRadius: '24px',
-          background: `${boldColor}90`,
+          background: `${boldColor}50`,
           zIndex: '900',
         }}
       >
