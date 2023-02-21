@@ -91,7 +91,7 @@ function App() {
       setLoad((carico/12)*100)
     }
     setPokedexIndPos(currentIndex);
-    setTimeout(() => {setLoad(0.5)}, 400)
+    setTimeout(() => {setLoad(0.5)}, 600)
     return newBasket
   };
 
