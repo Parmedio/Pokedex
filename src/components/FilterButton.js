@@ -13,7 +13,7 @@ const FilterButton = ({ typeSymbol, typeText, boldColor, lightColor }) => {
       transitionSpeed='800' 
       scale={1.24}
       reset='true'
-      className= 'fw8 ba bw3'
+      className= 'fw8 ba bw3 bg-white'
       style={{
         display: 'flex',
         justifyContent: 'center',
@@ -32,7 +32,7 @@ const FilterButton = ({ typeSymbol, typeText, boldColor, lightColor }) => {
           padding: '6px 2px 6px 2px',
           minWidth: '30px',
           borderRadius: '24px',
-          background: `${boldColor}50`,
+          background: `${boldColor}60`,
           zIndex: '900',
         }}
       >

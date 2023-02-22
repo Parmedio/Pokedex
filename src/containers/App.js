@@ -10,6 +10,7 @@ import Switch01 from '../components/Switch01.js'
 function App() {    
   const [displayedPkmon, setDisplayedPkmon] = useState([]);
   const [viewMode, setViewMode] = useState('artwork');
+  const [ way, setWay ] = useState('forward')
   const [PokedexIndPos, setPokedexIndPos] = useState(0);
   const [ load, setLoad ] = useState(0.5)
 
@@ -50,6 +51,21 @@ function App() {
   const viewModeSwitch = () => {
     setViewMode(viewMode === 'artwork' ? 'pixel' : 'artwork');
   };
+
+  const getIndPos = (event) => {
+    let ciccio = event.target.getAttribute('id')
+    setWay(ciccio)
+    let ceil = orderedArray.length - perPage
+    let proposal = event.target.getAttribute('name')
+    console.log('hai settato come way: ' + ciccio + ' e hai proposto come nuov indice: ' + proposal)
+    if (proposal < 0) {
+      return 0
+    } else if (proposal >= 0 && proposal <= ceil) {
+      return proposal
+    } else {
+      return ceil
+    }
+  }
 
   const loadPkmon = async (index) => {
     let carico = 0;
@@ -95,34 +111,25 @@ function App() {
     return newBasket
   };
 
-  const getIndPos = (event) => {
-    let ceil = orderedArray.length - perPage
-    let proposal = event.target.getAttribute('name')
-    if (proposal < 0) {
-      return 0
-    } else if (proposal >= 0 && proposal <= ceil) {
-      return proposal
-    } else {
-      return ceil
-    }
-  }
-
   const updateCardList = async (event) => {
     const newIndex = getIndPos(event);
     setPokedexIndPos(newIndex);
     let list = await loadPkmon(newIndex);
     setDisplayedPkmon(list);
   };
-  
-  //console.log('render ---------------> current viewMode: ' + viewMode)
-  //console.log('render ----------------> pkm list length: ' + displayedPkmon.length)
+
+  //console.log('App ------------------> current viewMode: ' + viewMode)
+  //console.log('App -------------------> pkm list length: ' + displayedPkmon.length)
   //console.log('App -------------> current PokedexIndPos: ' + PokedexIndPos)
+  //console.log('App -----------------------> current way: ' + way)
   return(
-    <div className='tc'>
-      <div style={{ width: '100%' }} className = 'flex justify-around items-center mv1'>
-        <div style={{ height: '86px', overflow: 'hidden' }}>
-          <img 
-              className='grow'
+    <div>
+      <div className='flex justify-center'>
+        <div style={{ width: '94%' }} className = 'flex justify-between items-center mv1'>
+
+        
+          <div style={{ height: '86px', overflow: 'hidden' }}>
+            <img 
               src={'https://1.bp.blogspot.com/-0V4itR_v87M/UtsCF-ehNYI/AAAAAAAABjU/UEQ5Jiy_85o/s1600/pokedex-3d-logo.png'}
               alt={`Pokedex`}
               id= 'pokedex'
@@ -131,34 +138,43 @@ function App() {
                 height: 'auto',
                 marginTop: '-12px',
                 marginBottom:'-18px' ,
+                marginLeft: '-28px',
+                marginRight: '-16px'
               }}
-          />
-        </div>
-        <div className = 'flex flex-column justify-around items-start'>
-          <div className = 'flex justify-between' style={{ width: '896px'}}>
-            <div className = 'flex justify-around items-center' style={{ minHeight: '43px' }}>
-              <p className='fw1 mh2 mv0 grow tr' style={{ minWidth: '88px' }}> Generation </p>
-              <GenDashboard skipToGen={updateCardList}/>
-            </div>
-            <div className = 'flex justify-center items-center' style={{ minHeight: '43px' }}>
-              <p className='fw1 mh2 grow mv0'> pixel </p>
-              <div style={{ marginLeft: '11px', marginRight: '-16px' }}>
-                <Switch01 viewModeSwitch={viewModeSwitch}/>
+            />
+          </div>
+
+
+
+          <div style={{ width: 'auto' }}>
+            <div className = 'flex justify-between' style={{ width: '1040px'}}>
+              <div className = 'flex justify-around items-center' style={{ minHeight: '43px' }}>
+                <p className='fw1 mh2 mv0 grow tr' style={{ minWidth: '88px' }}> Generation </p>
+                <GenDashboard skipToGen={updateCardList}/>
               </div>
-              <p className='fw1 mh2 grow mv0'> artwork </p>
+              <div className = 'flex justify-center items-center' style={{ width: 'auto', minHeight: '43px' }}>
+                <p className='fw1 mh2 grow mv0'> pixel </p>
+                <div style={{ marginLeft: '11px', marginRight: '-16px' }}>
+                  <Switch01 viewModeSwitch={viewModeSwitch}/>
+                </div>
+                <p className='fw1 mh2 grow mv0'> artwork </p>
+              </div>
+            </div>
+            <div className = 'flex justify-around items-center' style={{ minHeight: '43px' }}>
+              <p className='fw1 mh2 mv0 grow tr' style={{ minWidth: '88px' }}> filter </p>
+              <FilterDashboard />
             </div>
           </div>
-          <div className = 'flex justify-around items-center' style={{ minHeight: '43px' }}>
-            <p className='fw1 mh2 mv0 grow tr' style={{ minWidth: '88px' }}> filter </p>
-            <FilterDashboard skipToGen={updateCardList}/>
-          </div>
+
+
+
         </div>
       </div>
-      <LoadingBar loadStatus={load}/>
+      <LoadingBar loadStatus={load} way={way}/>
       <div className = 'flex justify-center items-center'>
         <PageNav
           changePage={updateCardList}
-          direction='previous'
+          direction='prev'
           currentPosition={PokedexIndPos}
           span={perPage}
         />
