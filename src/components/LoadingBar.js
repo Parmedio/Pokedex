@@ -1,9 +1,18 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import Tilt from 'react-parallax-tilt';
 
 const LoadingBar = ({ loadStatus }) => {
+
+  const [pingPong, setpingPong] = useState('start');
+
+  useEffect(() => {
+    if (loadStatus === 0.5) {
+      setpingPong(prevpingPong => prevpingPong === 'start' ? 'end' : 'start');
+    }
+  }, [loadStatus]);
+
   return(
-    <div className = 'flex justify-start items-center'>
+    <div className = {`flex justify-${pingPong} items-center`}>
       <Tilt
         perspective={200}
         glareEnable={true}
