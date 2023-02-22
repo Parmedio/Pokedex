@@ -15,10 +15,12 @@ const LoadingBar = ({ loadStatus }) => {
     <div className = {`flex justify-${pingPong} items-center`}>
       <Tilt
         perspective={200}
-        glareEnable={true}
+        glareEnable={false}
         tiltEnable={false}
-        glareMaxOpacity={1}
+        glareMaxOpacity={0}
         glarePosition='all'
+        gyroscope='true'
+        trackOnWindow='true'
         glareBorderRadius='20px'
         transitionSpeed='800' 
         scale={1}
@@ -33,7 +35,7 @@ const LoadingBar = ({ loadStatus }) => {
           borderRadius: '4px',
         }}
       >
-        <button
+        <p
           className= 'fw8 bw0'
           style={{
             display: 'flex',
@@ -49,7 +51,7 @@ const LoadingBar = ({ loadStatus }) => {
           }}
         >
           {/* {'l o a d i n g . . .'} */}
-        </button>
+        </p>
       </Tilt>
     </div>
   );

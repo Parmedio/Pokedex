@@ -13,7 +13,7 @@ const GenLink = ({ btnText, GenStartAt, skipToGen }) => {
       transitionSpeed='800' 
       scale={1.24}
       reset='true'
-      className= 'fw1 bg-light-gray ba bw2 b--moon-gray genTilt'
+      className= 'fw1 bg-light-gray ba bw3 b--moon-gray genTilt'
     >
       <button
         onClick={skipToGen}
