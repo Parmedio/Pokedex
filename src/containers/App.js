@@ -8,10 +8,10 @@ import '../index.css';
 import Switch01 from '../components/Switch01.js'
 
 function App() {    
-  const [displayedPkmon, setDisplayedPkmon] = useState([]);
-  const [viewMode, setViewMode] = useState('artwork');
+  const [ displayedPkmon, setDisplayedPkmon ] = useState([]);
+  const [ viewMode, setViewMode ] = useState('artwork');
   const [ way, setWay ] = useState('forward')
-  const [PokedexIndPos, setPokedexIndPos] = useState(0);
+  const [ PokedexIndPos, setPokedexIndPos ] = useState(0);
   const [ load, setLoad ] = useState(0.5)
 
   useEffect(() => {

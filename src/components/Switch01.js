@@ -16,7 +16,7 @@ const Buttonz = styled((props) => (
     '&.Mui-checked': {
       transform: 'translateX(26px)',
       '& + .MuiSwitch-track': {
-        backgroundColor: '#c37ce9',
+        backgroundColor: '#245bff',
         opacity: 1,
         border: 0,
       },
@@ -35,7 +35,7 @@ const Buttonz = styled((props) => (
   },
   '& .MuiSwitch-track': {
     borderRadius: 34 / 2,
-    backgroundColor: '#52cb66',
+    backgroundColor: '#00c8ff',
     opacity: 1,
     transition: theme.transitions.create(['background-color'], {
       duration: 1000,
