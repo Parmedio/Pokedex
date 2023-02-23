@@ -21,7 +21,7 @@ code {
 
 .fade-enter-active {
   opacity: 1;
-  transition: opacity 400ms;
+  transition: opacity 800ms;
 }
 
 .fade-exit {
@@ -30,7 +30,7 @@ code {
 
 .fade-exit-active {
   opacity: 0;
-  transition: opacity 400ms;
+  transition: opacity 800ms;
 }
 
 .genTilt {

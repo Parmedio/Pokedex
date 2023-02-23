@@ -45,6 +45,7 @@ const Card = ({ number, name, type01, type02, weight, height, offArt, sprite, vi
   };
 
   return(
+    
     <Tilt
       className='br4 pa2 ma1 shadow-5'
       perspective={800}
@@ -67,7 +68,7 @@ const Card = ({ number, name, type01, type02, weight, height, offArt, sprite, vi
         className='grow'
         onClick={handleClick}
       >
-        <CSSTransition in={imgUrl !== ""} timeout={400} classNames="fade">
+        <CSSTransition in={imgUrl !== ""} timeout={800} classNames="fade">
           <img
             className='grow'
             src={imgUrl}

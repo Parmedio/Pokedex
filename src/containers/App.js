@@ -52,18 +52,14 @@ function App() {
     setViewMode(viewMode === 'artwork' ? 'pixel' : 'artwork');
   };
 
-  const [ pos, setPos ] = useState('end')
-
   const getIndPos = (event) => {
-    let ciccio = event.target.getAttribute('way')
-    setWay(ciccio)
-    let bariccio;
-    if (pos === 'start') {
-      bariccio = 'end'
+    let going = event.target.getAttribute('way')
+    if (!going) {
+      going = 'forward'
+      setWay(going)
     } else {
-      bariccio = 'start'
+      setWay(going)
     }
-    setPos(bariccio)
     let ceil = orderedArray.length - perPage
     let proposal = event.target.getAttribute('name')
     if (proposal < 0) {
@@ -151,11 +147,15 @@ function App() {
               }}
             />
           </div>
-          <div>
+
+
+          {/* <div>
           <p> pos {pos}</p>
           <p> way {way}</p>
-          </div>
-          {/* <div style={{ width: 'auto' }}>
+          </div> */}
+
+
+          <div style={{ width: 'auto' }}>
             <div className = 'flex justify-between' style={{ width: '1040px'}}>
               <div className = 'flex justify-around items-center' style={{ minHeight: '43px' }}>
                 <p className='fw1 mh2 mv0 grow tr' style={{ minWidth: '88px' }}> Generation </p>
@@ -173,7 +173,7 @@ function App() {
               <p className='fw1 mh2 mv0 grow tr' style={{ minWidth: '88px' }}> filter </p>
               <FilterDashboard />
             </div>
-          </div> */}
+          </div>
 
 
 
