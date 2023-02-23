@@ -4,16 +4,16 @@ import Tilt from 'react-parallax-tilt';
 const LoadingBar = ({ loadStatus, way }) => {
 
   const [pingPong, setpingPong] = useState('start');
-
+  
   useEffect(() => {
     if (loadStatus === 0.5) {
       setpingPong(prevpingPong => prevpingPong === 'start' ? 'end' : 'start');
+    } else {
+      way === 'forward' ? setpingPong('start') : setpingPong('end');
     }
-  }, [loadStatus]);
+  }, [loadStatus, way]);
 
-  useEffect(() => {
-    way === 'forward' ? setpingPong('start') : setpingPong('end');
-  }, [way]);
+
 
   return(
     <div className='flex justify-center'>

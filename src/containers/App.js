@@ -52,12 +52,20 @@ function App() {
     setViewMode(viewMode === 'artwork' ? 'pixel' : 'artwork');
   };
 
+  const [ pos, setPos ] = useState('end')
+
   const getIndPos = (event) => {
-    let ciccio = event.target.getAttribute('id')
+    let ciccio = event.target.getAttribute('way')
     setWay(ciccio)
+    let bariccio;
+    if (pos === 'start') {
+      bariccio = 'end'
+    } else {
+      bariccio = 'start'
+    }
+    setPos(bariccio)
     let ceil = orderedArray.length - perPage
     let proposal = event.target.getAttribute('name')
-    console.log('hai settato come way: ' + ciccio + ' e hai proposto come nuov indice: ' + proposal)
     if (proposal < 0) {
       return 0
     } else if (proposal >= 0 && proposal <= ceil) {
@@ -143,10 +151,11 @@ function App() {
               }}
             />
           </div>
-
-
-
-          <div style={{ width: 'auto' }}>
+          <div>
+          <p> pos {pos}</p>
+          <p> way {way}</p>
+          </div>
+          {/* <div style={{ width: 'auto' }}>
             <div className = 'flex justify-between' style={{ width: '1040px'}}>
               <div className = 'flex justify-around items-center' style={{ minHeight: '43px' }}>
                 <p className='fw1 mh2 mv0 grow tr' style={{ minWidth: '88px' }}> Generation </p>
@@ -164,7 +173,7 @@ function App() {
               <p className='fw1 mh2 mv0 grow tr' style={{ minWidth: '88px' }}> filter </p>
               <FilterDashboard />
             </div>
-          </div>
+          </div> */}
 
 
 

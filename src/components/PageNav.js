@@ -1,7 +1,7 @@
 import React from 'react';
 import Tilt from 'react-parallax-tilt';
 
-const PageNav = ({ changePage, getWay, direction, currentPosition, span }) => {
+const PageNav = ({ changePage, direction, currentPosition, span }) => {
   let nextPokedexPosition;
   let position;
   let going;
@@ -40,7 +40,7 @@ const PageNav = ({ changePage, getWay, direction, currentPosition, span }) => {
     >
       <button
         onClick={changePage}
-        id={going}
+        way={going}
         name={nextPokedexPosition}
         className= 'fw8 bw0 grow'
         style={{
