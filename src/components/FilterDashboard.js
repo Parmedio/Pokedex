@@ -1,20 +1,21 @@
 import React from 'react';
 import FilterButton from './FilterButton';
-import { getEmoji, getBoldColor, getLightColor } from './library';
+import { getEmoji, getBoldColor } from './library';
 
-const FilterDashbord = () => {
+const FilterDashbord = ({ getFilter, filters }) => {
 
   const pokemonType = ['flying', 'water', 'ice', 'grass', 'dragon', 'electric', 'normal', 'bug', 'fire', 'fighting', 'poison', 'fairy', 'psychic', 'steel', 'ghost', 'rock', 'dark', 'ground']
   
-  let filters = [];
+  let pulsanti = [];
   for (let i = 0; i < pokemonType.length; i++) {
-    filters.push(
+    pulsanti.push(
       <FilterButton
         key={i}
         typeSymbol = {getEmoji(pokemonType[i])}
         typeText = {pokemonType[i]}
         boldColor = {getBoldColor(pokemonType[i])}
-        lightColor = {getLightColor(pokemonType[i])}
+        getFilter = {getFilter}
+        filters={filters}
       />
     );
   }
@@ -27,7 +28,7 @@ const FilterDashbord = () => {
       width: '100%',
       }}
     >
-      {filters}
+      {pulsanti}
     </div>
   );
 }

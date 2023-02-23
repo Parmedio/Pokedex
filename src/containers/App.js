@@ -21,7 +21,7 @@ function App() {
       setDisplayedPkmon(list);
     }
     appStartUp();
-  }, [])
+  }, [filters])
 
   const perPage = 12
 
@@ -52,6 +52,11 @@ function App() {
   const viewModeSwitch = () => {
     setViewMode(viewMode === 'artwork' ? 'pixel' : 'artwork');
   };
+
+  const clearFilters = () => {
+    setFilters([]);
+    setPokedexIndPos(PokedexIndPos - 12);
+  }
 
   const getIndPos = (event) => {
     let going = event.target.getAttribute('way');
@@ -123,8 +128,6 @@ function App() {
     while (newBasket.length < basketDepth ) {
       let pokemonNr = pokeNumberAtIndex(currentIndex)
       let newPkmon = await pkmonObjBuilder(pokemonNr)
-
-
       if (filters.length === 0 || filters.some(filter => newPkmon.type01 === filter || newPkmon.type02 === filter)) {
         newBasket.push(newPkmon);
         currentIndex++;
@@ -133,10 +136,6 @@ function App() {
       } else {
         currentIndex++;
       }
-      
-
-
-
     }
     setPokedexIndPos(currentIndex);
     setTimeout(() => {setLoad(0.5)}, 400)
@@ -198,8 +197,8 @@ function App() {
               </div>
             </div>
             <div className = 'flex justify-around items-center' style={{ minHeight: '43px' }}>
-              <p className='fw1 mh2 mv0 grow tr' style={{ minWidth: '88px' }}> filter </p>
-              <FilterDashboard />
+              <p className='fw1 mh2 mv0 grow tr' style={{ minWidth: '88px' }} onClick={clearFilters}> filter </p>
+              <FilterDashboard getFilter={getFilter} filters={filters}/>
             </div>
           </div>
 

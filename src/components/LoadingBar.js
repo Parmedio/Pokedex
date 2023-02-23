@@ -13,8 +13,6 @@ const LoadingBar = ({ loadStatus, way }) => {
     }
   }, [loadStatus, way]);
 
-
-
   return(
     <div className='flex justify-center'>
       <div style={{ width: '94%' }} className = {`flex justify-${pingPong}`}>

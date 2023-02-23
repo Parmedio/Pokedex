@@ -4,17 +4,6 @@ import { CSSTransition } from "react-transition-group";
 import { getEmoji, getLightColor, getBoldColor } from './library';
 
 const Card = ({ number, name, type01, type02, weight, height, offArt, sprite, viewMode }) => {
-  
-  const bgSetter = (arg1, arg2) => {
-    let background;
-    if (arg2 === '') {
-      background = `linear-gradient(0deg, ${getLightColor(arg1)}, ${getBoldColor(arg1)})`;
-    } else {
-      background = `linear-gradient(0deg, ${getLightColor(arg2)}, ${getBoldColor(arg1)})`;
-    }
-    return background;
-  }
-
   const [imgUrl, setImgUrl] = useState('');
 
   useEffect(() => {
@@ -24,6 +13,16 @@ const Card = ({ number, name, type01, type02, weight, height, offArt, sprite, vi
   const handleClick = () => {
     setImgUrl(imgUrl === offArt ? sprite : offArt);
   };
+
+  const bgSetter = (arg1, arg2) => {
+    let background;
+    if (arg2 === '') {
+      background = `linear-gradient(0deg, ${getLightColor(arg1)}, ${getBoldColor(arg1)})`;
+    } else {
+      background = `linear-gradient(0deg, ${getLightColor(arg2)}, ${getBoldColor(arg1)})`;
+    }
+    return background;
+  }
 
   const separaStringa = (stringa) => {
     const separatore = '-';
