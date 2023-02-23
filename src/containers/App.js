@@ -11,13 +11,14 @@ function App() {
   const [ displayedPkmon, setDisplayedPkmon ] = useState([]);
   const [ viewMode, setViewMode ] = useState('artwork');
   const [ way, setWay ] = useState('forward')
-  const [ PokedexIndPos, setPokedexIndPos ] = useState(0);
+  const [ currentCatInd, setCurrentCatInd ] = useState(367);
+  const [ prevCatInd, setPrevCatInd ] = useState(null);
   const [ load, setLoad ] = useState(0.5)
   const [ filters, setFilters] = useState([])
 
   useEffect(() => {
     const appStartUp = async () => {
-      let list = await loadPkmon(PokedexIndPos);
+      let list = await loadPkmon(currentCatInd);
       setDisplayedPkmon(list);
     }
     appStartUp();
@@ -57,22 +58,22 @@ function App() {
     setFilters([]);
   }
 
-  const getIndPos = (event) => {
+  const reverseArray = (arr) => {
+    let reversedArr = [];
+    for (let i = arr.length - 1; i >= 0; i--) {
+      reversedArr.push(arr[i]);
+    }
+    return reversedArr;
+  };  
+
+  const getWay = (event) => {
     let going = event.target.getAttribute('way');
     if (!going) {
       going = 'forward';
       setWay(going);
     } else {
+      console.log('hai cliccato e imposta la array ' + going)
       setWay(going)
-    }
-    let ceil = orderedArray.length - perPage
-    let proposal = event.target.getAttribute('name')
-    if (proposal < 0) {
-      return 0
-    } else if (proposal >= 0 && proposal <= ceil) {
-      return proposal
-    } else {
-      return ceil
     }
   }
 
@@ -127,31 +128,46 @@ function App() {
     while (newBasket.length < basketDepth ) {
       let pokemonNr = pokeNumberAtIndex(currentIndex)
       let newPkmon = await pkmonObjBuilder(pokemonNr)
+      console.log('sto facendo il pnm nr: ' + newPkmon.number)
       if (filters.length === 0 || filters.some(filter => newPkmon.type01 === filter || newPkmon.type02 === filter)) {
         newBasket.push(newPkmon);
-        currentIndex++;
+        if (way === "forward") {
+          currentIndex++;
+        } else if (way === "backward") {
+          currentIndex--;
+        }
         carico++;
         setLoad((carico/basketDepth)*100)
       } else {
-        currentIndex++;
+        if (way === "forward") {
+          currentIndex++;
+        } else if (way === "backward") {
+          currentIndex--;
+        }
       }
     }
-    setPokedexIndPos(currentIndex);
+    setCurrentCatInd(currentIndex);
     setTimeout(() => {setLoad(0.5)}, 400)
-    return newBasket
+    console.log('====================================')
+    if (way === "backward") {
+      return reverseArray(newBasket)
+    } else{
+      return newBasket
+    }
   };
 
   const updateCardList = async (event) => {
-    const newIndex = getIndPos(event);
-    setPokedexIndPos(newIndex);
+    const newIndex = getWay(event); // eccolo QUI il problema get way deve avere sia ind che direzione e scarta se non trova!!!! così posso usarlo su più fronti oppure faccio delle funzioni diverse così do senso anche al fatto che ho cercato il più possibile di scorporare le azioni in funzioni più piccole
+    setCurrentCatInd(newIndex);
     let list = await loadPkmon(newIndex);
     setDisplayedPkmon(list);
   };
 
   //console.log('App ------------------> current viewMode: ' + viewMode)
   //console.log('App -------------------> pkm list length: ' + displayedPkmon.length)
-  //console.log('App -------------> current PokedexIndPos: ' + PokedexIndPos)
+  console.log('App -------------> current currentCatInd: ' + currentCatInd)
   //console.log('App -------------------> applied filters: ' + filters)
+  console.log('App -----------------------> current way: ' + way)
   return(
     <div>
       <div className='flex justify-center'>
@@ -210,8 +226,6 @@ function App() {
         <PageNav
           changePage={updateCardList}
           direction='prev'
-          currentPosition={PokedexIndPos}
-          span={perPage}
         />
         <div style={{ width: '94%', margin: '0px' }}>
           <CardList  pkmonArray={displayedPkmon} viewMode={viewMode}/>
@@ -219,8 +233,6 @@ function App() {
         <PageNav
           changePage={updateCardList}
           direction='next'
-          currentPosition={PokedexIndPos}
-          span={perPage}
         />
       </div>
     </div>
