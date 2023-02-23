@@ -13,6 +13,7 @@ function App() {
   const [ way, setWay ] = useState('forward')
   const [ PokedexIndPos, setPokedexIndPos ] = useState(0);
   const [ load, setLoad ] = useState(0.5)
+  const [ filters, setFilters] = useState([])
 
   useEffect(() => {
     const appStartUp = async () => {
@@ -53,10 +54,10 @@ function App() {
   };
 
   const getIndPos = (event) => {
-    let going = event.target.getAttribute('way')
+    let going = event.target.getAttribute('way');
     if (!going) {
-      going = 'forward'
-      setWay(going)
+      going = 'forward';
+      setWay(going);
     } else {
       setWay(going)
     }
@@ -71,6 +72,49 @@ function App() {
     }
   }
 
+  const getFilter = (event) => {
+    const filter = event.target.getAttribute('filter');
+    setFilters(prevFilters => {
+      if (prevFilters.includes(filter)) {
+        return prevFilters.filter(f => f !== filter);
+      }
+      else {
+        return [...prevFilters, filter];
+      }
+    });
+  };
+
+  const pkmonObjBuilder = async (number) =>{
+    const res = await fetch(`https://pokeapi.co/api/v2/pokemon/${number}`);
+    const obj = await res.json();
+    const Order = obj.id;
+    const Name = obj.name;
+    const Type01 = obj.types[0].type.name;
+    let Type02 = '' 
+    try {
+    Type02 = obj.types[1].type.name;
+    }
+    catch {
+    Type02 = '';
+    }
+    const Height = obj.height;
+    const Weight = obj.weight;
+    const OffArt = obj.sprites.other['official-artwork'].front_default;
+    const Sprite = obj.sprites.front_default;
+  
+    const newPkmon = {
+      number: Order,
+      name: Name,
+      type01: Type01,
+      type02: Type02,
+      height: Height,
+      weight: Weight,
+      offArt: OffArt,
+      sprite: Sprite
+    }
+    return newPkmon
+  }
+  
   const loadPkmon = async (index) => {
     let carico = 0;
     let newBasket = [];
@@ -78,37 +122,21 @@ function App() {
     let currentIndex = index
     while (newBasket.length < basketDepth ) {
       let pokemonNr = pokeNumberAtIndex(currentIndex)
-      const res = await fetch(`https://pokeapi.co/api/v2/pokemon/${pokemonNr}`);
-      const obj = await res.json();
-      const Order = obj.id;
-      const Name = obj.name;
-      const Type01 = obj.types[0].type.name;
-      let Type02 = '' 
-      try {
-      Type02 = obj.types[1].type.name;
+      let newPkmon = await pkmonObjBuilder(pokemonNr)
+
+
+      if (filters.length === 0 || filters.some(filter => newPkmon.type01 === filter || newPkmon.type02 === filter)) {
+        newBasket.push(newPkmon);
+        currentIndex++;
+        carico++;
+        setLoad((carico/basketDepth)*100)
+      } else {
+        currentIndex++;
       }
-      catch {
-      Type02 = '';
-      }
-      const Height = obj.height;
-      const Weight = obj.weight;
-      const OffArt = obj.sprites.other['official-artwork'].front_default;
-      const Sprite = obj.sprites.front_default;
-   
-      const newPkmon = {
-        number: Order,
-        name: Name,
-        type01: Type01,
-        type02: Type02,
-        height: Height,
-        weight: Weight,
-        offArt: OffArt,
-        sprite: Sprite
-      }
-      newBasket.push(newPkmon);
-      currentIndex++;
-      carico++;
-      setLoad((carico/12)*100)
+      
+
+
+
     }
     setPokedexIndPos(currentIndex);
     setTimeout(() => {setLoad(0.5)}, 400)
@@ -125,7 +153,7 @@ function App() {
   //console.log('App ------------------> current viewMode: ' + viewMode)
   //console.log('App -------------------> pkm list length: ' + displayedPkmon.length)
   //console.log('App -------------> current PokedexIndPos: ' + PokedexIndPos)
-  //console.log('App -----------------------> current way: ' + way)
+  //console.log('App -------------------> applied filters: ' + filters)
   return(
     <div>
       <div className='flex justify-center'>
