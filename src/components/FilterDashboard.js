@@ -6,9 +6,9 @@ const FilterDashbord = ({ getFilter, filters }) => {
 
   const pokemonType = ['flying', 'water', 'ice', 'grass', 'dragon', 'electric', 'normal', 'bug', 'fire', 'fighting', 'poison', 'fairy', 'psychic', 'steel', 'ghost', 'rock', 'dark', 'ground']
   
-  let pulsanti = [];
+  let buttons = [];
   for (let i = 0; i < pokemonType.length; i++) {
-    pulsanti.push(
+    buttons.push(
       <FilterButton
         key={i}
         typeSymbol = {getEmoji(pokemonType[i])}
@@ -28,7 +28,7 @@ const FilterDashbord = ({ getFilter, filters }) => {
       width: '100%',
       }}
     >
-      {pulsanti}
+      {buttons}
     </div>
   );
 }

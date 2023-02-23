@@ -55,7 +55,6 @@ function App() {
 
   const clearFilters = () => {
     setFilters([]);
-    setPokedexIndPos(PokedexIndPos - 12);
   }
 
   const getIndPos = (event) => {
