@@ -47,12 +47,12 @@ const Card = ({ number, name, type01, type02, weight, height, offArt, sprite, vi
   return(
     
     <Tilt
-      className='br4 pa2 ma1 shadow-5'
+      className='br1 pa2 ma1 shadow-5'
       perspective={800}
       glareEnable={true}
       glareMaxOpacity={0.5}
       glarePosition='right'
-      glareBorderRadius='18px'
+      glareBorderRadius='2px'
       transitionSpeed='800'
       scale={1}
       reset='true'
@@ -68,7 +68,7 @@ const Card = ({ number, name, type01, type02, weight, height, offArt, sprite, vi
         className='grow'
         onClick={handleClick}
       >
-        <CSSTransition in={imgUrl !== ""} timeout={800} classNames="fade">
+        <CSSTransition in={imgUrl !== ""} timeout={800} classNames='fade'>
           <img
             className='grow'
             src={imgUrl}
@@ -82,8 +82,8 @@ const Card = ({ number, name, type01, type02, weight, height, offArt, sprite, vi
         </CSSTransition>
         <div>
           <div 
-            className='flex flex-column justify-center items-center br3 mh1 mb1' 
-            style={{ minHeight: '50px', background: 'rgba(255, 255, 255, 0.2)' }}
+            className='flex flex-column justify-center items-center br1 mh0 mb1' 
+            style={{ minHeight: '50px', background: 'rgba(255, 255, 255, 0.2)', marginLeft: '3px', marginRight: '3px' }}
           >
             <p className='ma0' style={{ fontSize: '22px', textTransform: 'capitalize' }}>
               {separaStringa(name)[0]}
@@ -92,7 +92,7 @@ const Card = ({ number, name, type01, type02, weight, height, offArt, sprite, vi
               {separaStringa(name)[1]}
             </p>
           </div>
-          {/* <div>
+          {/* <div className='br4 mh0 mb1' style={{ background: 'rgba(255, 255, 255, 0.2)' }}>
             <div className='flex justify-between grow'>
               <p className='ml4 mv1'>type: </p>
               <p className='mv1'>{getEmoji(type01)}</p>
