@@ -12,7 +12,7 @@ function App() {
   const [ viewMode, setViewMode ] = useState('artwork');
   const [ way, setWay ] = useState('forward');
   const [ prevWay, setPrevWay ] = useState('forward');
-  const [ pokeIndex, setPokeIndex ] = useState(479);
+  const [ pokeIndex, setPokeIndex ] = useState(0);
   const [ load, setLoad ] = useState(0.5);
   const [ filters, setFilters] = useState([]);
 
@@ -29,6 +29,11 @@ function App() {
   useEffect(() => {
     setPrevWay(way);
   }, [way]);
+
+  useEffect(() => {
+    console.log('la way corrente è     : ' + way);
+    console.log('la way precedente è   : ' + prevWay);
+  }, [way, prevWay]);
   
   const createOrderedArray = () => {
     var array1 = [];
@@ -123,14 +128,14 @@ function App() {
     return newPkmon
   }
 
-  const adjustIndex = (span) => {
-    if (prevWay !== null && prevWay !== way) {
+  const adjustIndex = (span, currentWay) => {
+    if (currentWay !== way) {
       console.log('-----------------------------------------------------> hai cambiato senso di direzione');
       if (prevWay === 'backward') {
-        console.log('>>> useEffect - ho impostato come indice ' + (pokeIndex + (span + 1)));
+        console.log('>>> ho impostato come indice ' + (pokeIndex + (span + 1)));
         return (pokeIndex + (span + 1))
       } else if (prevWay === 'forward') {
-        console.log('>>> useEffect - ho impostato come indice ' + (pokeIndex - (span + 1)));
+        console.log('>>> ho impostato come indice ' + (pokeIndex - (span + 1)));
         return (pokeIndex - (span + 1))        
       }
     } else {
@@ -142,10 +147,7 @@ function App() {
     let carico = 0;
     let newBasket = [];
     let basketDepth = perPage
-    let currentIndex = index
-
-
-
+    let currentIndex = adjustIndex(basketDepth, direction)
 
     console.log('inizio con indice        : ' + currentIndex)
     console.log('loadPkmon sto facendo way      : ' + direction)
