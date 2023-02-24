@@ -11,7 +11,6 @@ function App() {
   const [ displayedPkmon, setDisplayedPkmon ] = useState([]);
   const [ viewMode, setViewMode ] = useState('artwork');
   const [ way, setWay ] = useState('forward');
-  const [ prevWay, setPrevWay ] = useState('forward');
   const [ pokeIndex, setPokeIndex ] = useState(0);
   const [ load, setLoad ] = useState(0.5);
   const [ filters, setFilters] = useState([]);
@@ -20,20 +19,11 @@ function App() {
 
   useEffect(() => {
     const appStartUp = async () => {
-      let list = await loadPkmon(pokeIndex, way);
+      let list = await loadPkmon(way);
       setDisplayedPkmon(list);
     }
     appStartUp();
   }, [filters])
-
-  useEffect(() => {
-    setPrevWay(way);
-  }, [way]);
-
-  useEffect(() => {
-    console.log('la way corrente è     : ' + way);
-    console.log('la way precedente è   : ' + prevWay);
-  }, [way, prevWay]);
   
   const createOrderedArray = () => {
     var array1 = [];
@@ -128,13 +118,13 @@ function App() {
     return newPkmon
   }
 
-  const adjustIndex = (span, currentWay) => {
-    if (currentWay !== way) {
+  const adjustIndex = (span, direction, prevDirection) => { // CI SARà PREVINDEX
+    if (prevDirection !== null && prevDirection !== direction) {
       console.log('-----------------------------------------------------> hai cambiato senso di direzione');
-      if (prevWay === 'backward') {
+      if (prevDirection === 'backward') {
         console.log('>>> ho impostato come indice ' + (pokeIndex + (span + 1)));
         return (pokeIndex + (span + 1))
-      } else if (prevWay === 'forward') {
+      } else if (prevDirection === 'forward') {
         console.log('>>> ho impostato come indice ' + (pokeIndex - (span + 1)));
         return (pokeIndex - (span + 1))        
       }
@@ -143,11 +133,12 @@ function App() {
     }
   };
   
-  const loadPkmon = async (index, direction) => {
+  const loadPkmon = async (direction) => {
     let carico = 0;
     let newBasket = [];
     let basketDepth = perPage
-    let currentIndex = adjustIndex(basketDepth, direction)
+    let currentIndex = adjustIndex(basketDepth, direction, direction !== way ? way : null)
+
 
     console.log('inizio con indice        : ' + currentIndex)
     console.log('loadPkmon sto facendo way      : ' + direction)
@@ -186,7 +177,7 @@ function App() {
   const updateCardList = async (event) => {
     const currentWay = getWay(event);
     //const adjustedIndex = pokeIndex;
-    let list = await loadPkmon(pokeIndex, currentWay);
+    let list = await loadPkmon(currentWay);
     setDisplayedPkmon(list);
   };
 
