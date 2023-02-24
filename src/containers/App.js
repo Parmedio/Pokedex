@@ -10,22 +10,26 @@ import Switch01 from '../components/Switch01.js'
 function App() {    
   const [ displayedPkmon, setDisplayedPkmon ] = useState([]);
   const [ viewMode, setViewMode ] = useState('artwork');
-  const [ way, setWay ] = useState('forward')
-  const [ currentCatInd, setCurrentCatInd ] = useState(367);
-  const [ prevCatInd, setPrevCatInd ] = useState(null);
-  const [ load, setLoad ] = useState(0.5)
-  const [ filters, setFilters] = useState([])
+  const [ way, setWay ] = useState('forward');
+  const [ prevWay, setPrevWay ] = useState('forward');
+  const [ pokeIndex, setPokeIndex ] = useState(479);
+  const [ load, setLoad ] = useState(0.5);
+  const [ filters, setFilters] = useState([]);
+
+  const perPage = 12
 
   useEffect(() => {
     const appStartUp = async () => {
-      let list = await loadPkmon(currentCatInd);
+      let list = await loadPkmon(pokeIndex, way);
       setDisplayedPkmon(list);
     }
     appStartUp();
   }, [filters])
 
-  const perPage = 12
-
+  useEffect(() => {
+    setPrevWay(way);
+  }, [way]);
+  
   const createOrderedArray = () => {
     var array1 = [];
     var array2 = [];
@@ -56,7 +60,7 @@ function App() {
 
   const clearFilters = () => {
     setFilters([]);
-  }
+  };
 
   const reverseArray = (arr) => {
     let reversedArr = [];
@@ -70,12 +74,11 @@ function App() {
     let going = event.target.getAttribute('way');
     if (!going) {
       going = 'forward';
-      setWay(going);
-    } else {
-      console.log('hai cliccato e imposta la array ' + going)
-      setWay(going)
     }
-  }
+    console.log('hai cliccato e messo ' + going)
+    setWay(going);
+    return going;
+  };
 
   const getFilter = (event) => {
     const filter = event.target.getAttribute('filter');
@@ -119,37 +122,59 @@ function App() {
     }
     return newPkmon
   }
+
+  const adjustIndex = (span) => {
+    if (prevWay !== null && prevWay !== way) {
+      console.log('-----------------------------------------------------> hai cambiato senso di direzione');
+      if (prevWay === 'backward') {
+        console.log('>>> useEffect - ho impostato come indice ' + (pokeIndex + (span + 1)));
+        return (pokeIndex + (span + 1))
+      } else if (prevWay === 'forward') {
+        console.log('>>> useEffect - ho impostato come indice ' + (pokeIndex - (span + 1)));
+        return (pokeIndex - (span + 1))        
+      }
+    } else {
+      return pokeIndex
+    }
+  };
   
-  const loadPkmon = async (index) => {
+  const loadPkmon = async (index, direction) => {
     let carico = 0;
     let newBasket = [];
     let basketDepth = perPage
     let currentIndex = index
+
+
+
+
+    console.log('inizio con indice        : ' + currentIndex)
+    console.log('loadPkmon sto facendo way      : ' + direction)
     while (newBasket.length < basketDepth ) {
       let pokemonNr = pokeNumberAtIndex(currentIndex)
       let newPkmon = await pkmonObjBuilder(pokemonNr)
-      console.log('sto facendo il pnm nr: ' + newPkmon.number)
+      console.log('loadPkmon sto facendo il pnm nr: ' + newPkmon.number)
       if (filters.length === 0 || filters.some(filter => newPkmon.type01 === filter || newPkmon.type02 === filter)) {
         newBasket.push(newPkmon);
-        if (way === "forward") {
+        if (direction === "forward") {
           currentIndex++;
-        } else if (way === "backward") {
+        } else if (direction === "backward") {
           currentIndex--;
         }
         carico++;
         setLoad((carico/basketDepth)*100)
       } else {
-        if (way === "forward") {
+        if (direction === "forward") {
           currentIndex++;
-        } else if (way === "backward") {
+        } else if (direction === "backward") {
           currentIndex--;
         }
       }
     }
-    setCurrentCatInd(currentIndex);
+    setPokeIndex(currentIndex);
+    console.log('finisco con indice       : ' + currentIndex)
     setTimeout(() => {setLoad(0.5)}, 400)
     console.log('====================================')
-    if (way === "backward") {
+    if (direction === "backward") {
       return reverseArray(newBasket)
     } else{
       return newBasket
@@ -157,17 +182,38 @@ function App() {
   };
 
   const updateCardList = async (event) => {
-    const newIndex = getWay(event); // eccolo QUI il problema get way deve avere sia ind che direzione e scarta se non trova!!!! così posso usarlo su più fronti oppure faccio delle funzioni diverse così do senso anche al fatto che ho cercato il più possibile di scorporare le azioni in funzioni più piccole
-    setCurrentCatInd(newIndex);
-    let list = await loadPkmon(newIndex);
+    const currentWay = getWay(event);
+    //const adjustedIndex = pokeIndex;
+    let list = await loadPkmon(pokeIndex, currentWay);
     setDisplayedPkmon(list);
   };
 
   //console.log('App ------------------> current viewMode: ' + viewMode)
   //console.log('App -------------------> pkm list length: ' + displayedPkmon.length)
-  console.log('App -------------> current currentCatInd: ' + currentCatInd)
+  //console.log('App -------------------------> pokeIndex: ' + pokeIndex)
   //console.log('App -------------------> applied filters: ' + filters)
-  console.log('App -----------------------> current way: ' + way)
+  //console.log('App -----------------------> current way: ' + way)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
   return(
     <div>
       <div className='flex justify-center'>
