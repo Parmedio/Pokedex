@@ -12,6 +12,7 @@ function App() {
   const [ viewMode, setViewMode ] = useState('artwork');
   const [ way, setWay ] = useState('forward');
   const [ pokeIndex, setPokeIndex ] = useState(0);
+  const [ prevPokeIndex, setPrevPokeIndex ] = useState(null);
   const [ load, setLoad ] = useState(0.5);
   const [ filters, setFilters] = useState([]);
 
@@ -118,7 +119,7 @@ function App() {
     return newPkmon
   }
 
-  const adjustIndex = (span, direction, prevDirection) => { // CI SARà PREVINDEX
+  const adjustIndexj = (span, direction, prevDirection) => { // CI SARà PREVINDEX
     if (prevDirection !== null && prevDirection !== direction) {
       console.log('-----------------------------------------------------> hai cambiato senso di direzione');
       if (prevDirection === 'backward') {
@@ -132,12 +133,29 @@ function App() {
       return pokeIndex
     }
   };
+
+  const adjustIndex = (span, direction, prevDirection) => { // CI SARà PREVINDEX
+    if (prevDirection !== null && prevDirection !== direction) {
+      console.log('-----------------------------------------------------> hai cambiato senso di direzione');
+      if (prevDirection === 'backward') {
+        console.log('>>> ho impostato come indice ' + (pokeIndex + (span + 1)));
+        return (prevPokeIndex + 1)
+      } else if (prevDirection === 'forward') {
+        console.log('>>> ho impostato come indice ' + (pokeIndex - (span + 1)));
+        return (prevPokeIndex - 1)
+      }
+    } else {
+      return pokeIndex
+    }
+  };
   
   const loadPkmon = async (direction) => {
     let carico = 0;
     let newBasket = [];
     let basketDepth = perPage
     let currentIndex = adjustIndex(basketDepth, direction, direction !== way ? way : null)
+    setPrevPokeIndex(currentIndex)
+
 
 
     console.log('inizio con indice        : ' + currentIndex)
@@ -165,6 +183,8 @@ function App() {
     }
     setPokeIndex(currentIndex);
     console.log('finisco con indice       : ' + currentIndex)
+    console.log('======================================== impostato prevPokeIndex   : ' + prevPokeIndex)
+    console.log('======================================== impostato pokeIndex       : ' + pokeIndex)
     setTimeout(() => {setLoad(0.5)}, 400)
     console.log('====================================')
     if (direction === "backward") {

@@ -53,7 +53,6 @@ const LoadingBar = ({ loadStatus, way }) => {
               background: 'linear-gradient(90deg, #00c8ff, #245bff) no-repeat fixed',
             }}
           >
-            {/* {'l o a d i n g . . .'} */}
           </p>
         </Tilt>
       </div>
