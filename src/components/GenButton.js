@@ -1,7 +1,7 @@
 import React from 'react';
 import Tilt from 'react-parallax-tilt';
 
-const GenLink = ({ btnText, GenStartAt, skipToGen }) => {
+const GenButton = ({ btnText, GenStartAt, skipToGen }) => {
   return(
     <Tilt
       perspective={200}
@@ -26,4 +26,4 @@ const GenLink = ({ btnText, GenStartAt, skipToGen }) => {
   );
 }
 
-export default GenLink
+export default GenButton

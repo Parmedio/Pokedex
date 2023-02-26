@@ -1,5 +1,5 @@
 import React from 'react';
-import GenLink from './GenLink';
+import GenButton from './GenButton';
 
 const GenDashboard = ({ skipToGen }) => {
 
@@ -45,7 +45,7 @@ const GenDashboard = ({ skipToGen }) => {
   let hyperlinks = [];
   for (let i = 1; i <= 9; i++) {
     hyperlinks.push(
-      <GenLink
+      <GenButton
         key={i}
         btnText={toRoman(i)}
         GenStartAt={setBookmark(i)}
@@ -63,7 +63,7 @@ const GenDashboard = ({ skipToGen }) => {
       }}
     >
       {hyperlinks}
-      <GenLink
+      <GenButton
         key={10}
         btnText='  special  '
         GenStartAt= {1008}

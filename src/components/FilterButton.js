@@ -10,7 +10,7 @@ const FilterButton = ({ typeSymbol, typeText, boldColor, getFilter, filters }) =
     } else {
       setClicked(false);
     }
-  }, [filters]);
+  }, [filters, typeText]);
 
   return(
     <Tilt

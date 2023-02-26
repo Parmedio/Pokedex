@@ -95,7 +95,6 @@ function App() {
     setWay('forward')
     const gen = event.target.getAttribute('gen');
     setPokeIndex(gen)
-    setFilters([])
   };
 
 const pkmonObjBuilder = async (number) => {
@@ -116,31 +115,27 @@ const pkmonObjBuilder = async (number) => {
 
   const adjustIndex = (direction, prevDirection) => {
     if (prevDirection !== null && prevDirection !== direction) {
-      // console.log('-----------------------------------------------------> hai invertito direzione scorrimento');
       if (prevDirection === 'backward') {
-        // console.log('>>> ho impostato come indice ' + (prevPokeIndex + 1));
-        return (prevPokeIndex +1)
+        return (prevPokeIndex + 1)
       } else if (prevDirection === 'forward') {
-        // console.log('>>> ho impostato come indice ' + (prevPokeIndex -1));
-        return (prevPokeIndex -1)
+        return (prevPokeIndex - 1)
       }
     } else {
       return pokeIndex 
     }
   };
   
-  const loadPkmon = async (direction) => {
+  const loadPkmon = async (direction, index = pokeIndex) => {
     let carico = 0;
     let newBasket = [];
     let indexFirstEntry = -1;
     let basketDepth = perPage
     let currentIndex = adjustIndex(direction, direction !== way ? way : null)
-    // console.log('inizio lista pkm con indice : ' + currentIndex)
-    // console.log('loadPkmon sto facendo way      : ' + direction)
+
+
     while (newBasket.length < basketDepth ) {
       let pokemonNr = pokeNumberAtIndex(currentIndex)
       let newPkmon = await pkmonObjBuilder(pokemonNr)
-      // console.log('loadPkmon sto facendo il pnm nr: ' + newPkmon.number)
       if (filters.length === 0 || filters.some(filter => newPkmon.type01 === filter || newPkmon.type02 === filter)) {
         if (indexFirstEntry === -1) {
           indexFirstEntry = currentIndex;
@@ -161,11 +156,10 @@ const pkmonObjBuilder = async (number) => {
         }
       }
     }
+
+
     setPrevPokeIndex(indexFirstEntry)
     setPokeIndex(currentIndex)
-    // console.log('finisco lista pkm con indice: ' + (currentIndex - 1))
-    // console.log('impostato pokeIndex       : ' + currentIndex)
-    // console.log('impostato prevPokeIndex   : ' + pokeIndex + '\n====================================')
     setTimeout(() => {setLoad(0.5)}, 400)
     if (direction === "backward") {
       return reverseArray(newBasket)
@@ -175,6 +169,12 @@ const pkmonObjBuilder = async (number) => {
   };
 
   const updateCardList = async (event) => {
+    if (event.target.getAttribute) {} //facendo qui
+    
+
+    goToGen(event)
+    
+
     const currentWay = getWay(event);
     let list = await loadPkmon(currentWay);
     setDisplayedPkmon(list);
