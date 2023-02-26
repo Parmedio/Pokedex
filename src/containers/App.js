@@ -20,7 +20,7 @@ function App() {
 
   useEffect(() => {
     const appStartUp = async () => {
-      let list = await loadPkmon(way);
+      let list = await loadPkmon(way, );
       setDisplayedPkmon(list);
     }
     appStartUp();
@@ -46,6 +46,8 @@ function App() {
 
   let orderedArray = createOrderedArray();
 
+  let ceil = orderedArray.length - perPage
+
   const pokeNumberAtIndex = (index) => {
     return orderedArray[index];
   };
@@ -65,14 +67,13 @@ function App() {
       reversedArr.push(arr[i]);
     }
     return reversedArr;
-  };  
+  };
 
   const getWay = (event) => {
     let going = event.target.getAttribute('way');
     if (!going) {
       going = 'forward';
     }
-    // console.log('hai cliccato e messo ' + going)
     setWay(going);
     return going;
   };
@@ -93,8 +94,8 @@ function App() {
 
   const goToGen = (event) => {
     setWay('forward')
-    const gen = event.target.getAttribute('gen');
-    setPokeIndex(gen)
+    const genIndex = event.target.getAttribute('gen');
+    return genIndex
   };
 
 const pkmonObjBuilder = async (number) => {
@@ -125,17 +126,17 @@ const pkmonObjBuilder = async (number) => {
     }
   };
   
-  const loadPkmon = async (direction, index = pokeIndex) => {
+  const loadPkmon = async (direction, index = null) => {
     let carico = 0;
     let newBasket = [];
     let indexFirstEntry = -1;
-    let basketDepth = perPage
-    let currentIndex = adjustIndex(direction, direction !== way ? way : null)
-
-
+    let basketDepth = perPage;
+    let currentIndex;
+    index === null ? currentIndex = adjustIndex(direction, direction !== way ? way : null) : currentIndex = index;
     while (newBasket.length < basketDepth ) {
       let pokemonNr = pokeNumberAtIndex(currentIndex)
       let newPkmon = await pkmonObjBuilder(pokemonNr)
+      console.log('sto facendo il pokemon ' + newPkmon.name + ' ' + newPkmon.number)
       if (filters.length === 0 || filters.some(filter => newPkmon.type01 === filter || newPkmon.type02 === filter)) {
         if (indexFirstEntry === -1) {
           indexFirstEntry = currentIndex;
@@ -156,11 +157,9 @@ const pkmonObjBuilder = async (number) => {
         }
       }
     }
-
-
     setPrevPokeIndex(indexFirstEntry)
-    setPokeIndex(currentIndex)
-    setTimeout(() => {setLoad(0.5)}, 400)
+    setPokeIndex(currentIndex > (ceil) ? (ceil) : currentIndex)
+    setTimeout(() => {setLoad(0.5)}, 440)
     if (direction === "backward") {
       return reverseArray(newBasket)
     } else{
@@ -169,42 +168,16 @@ const pkmonObjBuilder = async (number) => {
   };
 
   const updateCardList = async (event) => {
-    if (event.target.getAttribute) {} //facendo qui
-    
-
-    goToGen(event)
-    
-
-    const currentWay = getWay(event);
-    let list = await loadPkmon(currentWay);
-    setDisplayedPkmon(list);
+    if (event.target.getAttribute('gen') != null) {
+      const workingIndex = goToGen(event);
+      let list = await loadPkmon('forward', workingIndex);
+      setDisplayedPkmon(list);
+    } else if (event.target.getAttribute('filter') != null || event.target.getAttribute('way') != null) {
+      const currentWay = getWay(event);
+      let list = await loadPkmon(currentWay);
+      setDisplayedPkmon(list);
+    }
   };
-
-  //console.log('App ------------------> current viewMode: ' + viewMode)
-  //console.log('App -------------------> pkm list length: ' + displayedPkmon.length)
-  //console.log('App -------------------------> pokeIndex: ' + pokeIndex)
-  //console.log('App -------------------> applied filters: ' + filters)
-  //console.log('App -----------------------> current way: ' + way)
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
   return(
     <div>
@@ -239,7 +212,7 @@ const pkmonObjBuilder = async (number) => {
             <div className = 'flex justify-between' style={{ width: '1040px'}}>
               <div className = 'flex justify-around items-center' style={{ minHeight: '43px' }}>
                 <p className='fw1 mh2 mv0 grow tr' style={{ minWidth: '88px' }}> Generation </p>
-                <GenDashboard skipToGen={goToGen}/>
+                <GenDashboard skipToGen={updateCardList}/>
               </div>
               <div className = 'flex justify-center items-center' style={{ width: 'auto', minHeight: '43px' }}>
                 <p className='fw1 mh2 grow mv0'> pixel </p>
@@ -262,6 +235,7 @@ const pkmonObjBuilder = async (number) => {
       <LoadingBar loadStatus={load} way={way}/>
       <div className = 'flex justify-center items-center'>
         <PageNav
+          pokeIndex={pokeIndex}
           changePage={updateCardList}
           direction='prev'
         />
@@ -269,6 +243,8 @@ const pkmonObjBuilder = async (number) => {
           <CardList  pkmonArray={displayedPkmon} viewMode={viewMode}/>
         </div>
         <PageNav
+          ceil={ceil}
+          pokeIndex={pokeIndex}
           changePage={updateCardList}
           direction='next'
         />
