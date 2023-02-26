@@ -1,16 +1,13 @@
 import React from 'react';
 import Tilt from 'react-parallax-tilt';
 
-const PageNav = ({ changePage, direction, currentPosition, span }) => {
-  let nextPokedexPosition;
+const PageNav = ({ changePage, direction }) => {
   let position;
   let going;
   if (direction === 'next') {
-    nextPokedexPosition = currentPosition;
     position = 'right';
     going = 'forward';
   } else {
-    nextPokedexPosition = currentPosition - 2*span;
     position = 'left';
     going = 'backward';
   }
@@ -41,7 +38,6 @@ const PageNav = ({ changePage, direction, currentPosition, span }) => {
       <button
         onClick={changePage}
         way={going}
-        name={nextPokedexPosition}
         className= 'fw8 bw0 grow'
         style={{
           padding: '24px 10px 24px 10px',

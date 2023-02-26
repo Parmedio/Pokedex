@@ -17,7 +17,7 @@ const GenLink = ({ btnText, GenStartAt, skipToGen }) => {
     >
       <button
         onClick={skipToGen}
-        name={GenStartAt}
+        gen={GenStartAt}
         className= 'fw1 bw0 grow shadow-5 genButton'
       >
         {btnText}

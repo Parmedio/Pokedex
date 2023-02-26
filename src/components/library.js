@@ -32,7 +32,7 @@ const typeReferenceMaster = [
   ['dark', '🌑', '#34304b', '#3d2424'],
   ['dragon', '🐲', '#62a78d', '#408b2d'],
   ['electric', '⚡', '#ffe894', '#fbff0a'],
-  ['fairy', '🧚‍♀️', '#9af4cd', '#da48e5'],
+  ['fairy', '🪄', '#9af4cd', '#da48e5'],
   ['fighting', '🥊', '#eaa52e', '#ff2e2e'],
   ['ghost', '👻', '#d178f2', '#403d76'],
   ['ground', '⛰️', '#887e6d', '#88593a'],

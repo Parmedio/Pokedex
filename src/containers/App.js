@@ -10,21 +10,22 @@ import Switch01 from '../components/Switch01.js'
 function App() {    
   const [ displayedPkmon, setDisplayedPkmon ] = useState([]);
   const [ viewMode, setViewMode ] = useState('artwork');
-  const [ way, setWay ] = useState('forward')
-  const [ PokedexIndPos, setPokedexIndPos ] = useState(0);
-  const [ load, setLoad ] = useState(0.5)
-  const [ filters, setFilters] = useState([])
+  const [ way, setWay ] = useState('forward');
+  const [ pokeIndex, setPokeIndex ] = useState(0);
+  const [ prevPokeIndex, setPrevPokeIndex ] = useState(null);
+  const [ load, setLoad ] = useState(0.5);
+  const [ filters, setFilters] = useState([]);
+
+  const perPage = 12
 
   useEffect(() => {
     const appStartUp = async () => {
-      let list = await loadPkmon(PokedexIndPos);
+      let list = await loadPkmon(way);
       setDisplayedPkmon(list);
     }
     appStartUp();
   }, [filters])
-
-  const perPage = 12
-
+  
   const createOrderedArray = () => {
     var array1 = [];
     var array2 = [];
@@ -54,30 +55,32 @@ function App() {
   };
 
   const clearFilters = () => {
+    setPokeIndex(prevPokeIndex)
     setFilters([]);
-  }
+  };
 
-  const getIndPos = (event) => {
+  const reverseArray = (arr) => {
+    let reversedArr = [];
+    for (let i = arr.length - 1; i >= 0; i--) {
+      reversedArr.push(arr[i]);
+    }
+    return reversedArr;
+  };  
+
+  const getWay = (event) => {
     let going = event.target.getAttribute('way');
     if (!going) {
       going = 'forward';
-      setWay(going);
-    } else {
-      setWay(going)
     }
-    let ceil = orderedArray.length - perPage
-    let proposal = event.target.getAttribute('name')
-    if (proposal < 0) {
-      return 0
-    } else if (proposal >= 0 && proposal <= ceil) {
-      return proposal
-    } else {
-      return ceil
-    }
-  }
+    // console.log('hai cliccato e messo ' + going)
+    setWay(going);
+    return going;
+  };
 
   const getFilter = (event) => {
+    setWay('forward')
     const filter = event.target.getAttribute('filter');
+    setPokeIndex(Math.min(pokeIndex, prevPokeIndex))
     setFilters(prevFilters => {
       if (prevFilters.includes(filter)) {
         return prevFilters.filter(f => f !== filter);
@@ -88,70 +91,121 @@ function App() {
     });
   };
 
-  const pkmonObjBuilder = async (number) =>{
-    const res = await fetch(`https://pokeapi.co/api/v2/pokemon/${number}`);
-    const obj = await res.json();
-    const Order = obj.id;
-    const Name = obj.name;
-    const Type01 = obj.types[0].type.name;
-    let Type02 = '' 
-    try {
-    Type02 = obj.types[1].type.name;
+  const goToGen = (event) => {
+    setWay('forward')
+    const gen = event.target.getAttribute('gen');
+    setPokeIndex(gen)
+    setFilters([])
+  };
+
+const pkmonObjBuilder = async (number) => {
+  const res = await fetch(`https://pokeapi.co/api/v2/pokemon/${number}`);
+  const obj = await res.json();
+  const newPkmon = {
+    number: obj.id,
+    name: obj.name,
+    type01: obj.types[0].type.name,
+    type02: obj.types[1] ? obj.types[1].type.name : '',
+    height: obj.height,
+    weight: obj.weight,
+    offArt: obj.sprites.other['official-artwork'].front_default,
+    sprite: obj.sprites.front_default
+  };
+  return newPkmon;
+};
+
+  const adjustIndex = (direction, prevDirection) => {
+    if (prevDirection !== null && prevDirection !== direction) {
+      // console.log('-----------------------------------------------------> hai invertito direzione scorrimento');
+      if (prevDirection === 'backward') {
+        // console.log('>>> ho impostato come indice ' + (prevPokeIndex + 1));
+        return (prevPokeIndex +1)
+      } else if (prevDirection === 'forward') {
+        // console.log('>>> ho impostato come indice ' + (prevPokeIndex -1));
+        return (prevPokeIndex -1)
+      }
+    } else {
+      return pokeIndex 
     }
-    catch {
-    Type02 = '';
-    }
-    const Height = obj.height;
-    const Weight = obj.weight;
-    const OffArt = obj.sprites.other['official-artwork'].front_default;
-    const Sprite = obj.sprites.front_default;
+  };
   
-    const newPkmon = {
-      number: Order,
-      name: Name,
-      type01: Type01,
-      type02: Type02,
-      height: Height,
-      weight: Weight,
-      offArt: OffArt,
-      sprite: Sprite
-    }
-    return newPkmon
-  }
-  
-  const loadPkmon = async (index) => {
+  const loadPkmon = async (direction) => {
     let carico = 0;
     let newBasket = [];
+    let indexFirstEntry = -1;
     let basketDepth = perPage
-    let currentIndex = index
+    let currentIndex = adjustIndex(direction, direction !== way ? way : null)
+    // console.log('inizio lista pkm con indice : ' + currentIndex)
+    // console.log('loadPkmon sto facendo way      : ' + direction)
     while (newBasket.length < basketDepth ) {
       let pokemonNr = pokeNumberAtIndex(currentIndex)
       let newPkmon = await pkmonObjBuilder(pokemonNr)
+      // console.log('loadPkmon sto facendo il pnm nr: ' + newPkmon.number)
       if (filters.length === 0 || filters.some(filter => newPkmon.type01 === filter || newPkmon.type02 === filter)) {
+        if (indexFirstEntry === -1) {
+          indexFirstEntry = currentIndex;
+        }
         newBasket.push(newPkmon);
-        currentIndex++;
+        if (direction === "forward") {
+          currentIndex++;
+        } else if (direction === "backward") {
+          currentIndex--;
+        }
         carico++;
         setLoad((carico/basketDepth)*100)
       } else {
-        currentIndex++;
+        if (direction === "forward") {
+          currentIndex++;
+        } else if (direction === "backward") {
+          currentIndex--;
+        }
       }
     }
-    setPokedexIndPos(currentIndex);
+    setPrevPokeIndex(indexFirstEntry)
+    setPokeIndex(currentIndex)
+    // console.log('finisco lista pkm con indice: ' + (currentIndex - 1))
+    // console.log('impostato pokeIndex       : ' + currentIndex)
+    // console.log('impostato prevPokeIndex   : ' + pokeIndex + '\n====================================')
     setTimeout(() => {setLoad(0.5)}, 400)
-    return newBasket
+    if (direction === "backward") {
+      return reverseArray(newBasket)
+    } else{
+      return newBasket
+    }
   };
 
   const updateCardList = async (event) => {
-    const newIndex = getIndPos(event);
-    setPokedexIndPos(newIndex);
-    let list = await loadPkmon(newIndex);
+    const currentWay = getWay(event);
+    let list = await loadPkmon(currentWay);
     setDisplayedPkmon(list);
   };
 
   //console.log('App ------------------> current viewMode: ' + viewMode)
   //console.log('App -------------------> pkm list length: ' + displayedPkmon.length)
-  //console.log('App -------------> current PokedexIndPos: ' + PokedexIndPos)
+  //console.log('App -------------------------> pokeIndex: ' + pokeIndex)
   //console.log('App -------------------> applied filters: ' + filters)
+  //console.log('App -----------------------> current way: ' + way)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
   return(
     <div>
       <div className='flex justify-center'>
@@ -185,7 +239,7 @@ function App() {
             <div className = 'flex justify-between' style={{ width: '1040px'}}>
               <div className = 'flex justify-around items-center' style={{ minHeight: '43px' }}>
                 <p className='fw1 mh2 mv0 grow tr' style={{ minWidth: '88px' }}> Generation </p>
-                <GenDashboard skipToGen={updateCardList}/>
+                <GenDashboard skipToGen={goToGen}/>
               </div>
               <div className = 'flex justify-center items-center' style={{ width: 'auto', minHeight: '43px' }}>
                 <p className='fw1 mh2 grow mv0'> pixel </p>
@@ -210,8 +264,6 @@ function App() {
         <PageNav
           changePage={updateCardList}
           direction='prev'
-          currentPosition={PokedexIndPos}
-          span={perPage}
         />
         <div style={{ width: '94%', margin: '0px' }}>
           <CardList  pkmonArray={displayedPkmon} viewMode={viewMode}/>
@@ -219,8 +271,6 @@ function App() {
         <PageNav
           changePage={updateCardList}
           direction='next'
-          currentPosition={PokedexIndPos}
-          span={perPage}
         />
       </div>
     </div>
