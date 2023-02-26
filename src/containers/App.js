@@ -110,12 +110,12 @@ const pkmonObjBuilder = async (number) => {
 
   const adjustIndex = (direction, prevDirection) => {
     if (prevDirection !== null && prevDirection !== direction) {
-      console.log('-----------------------------------------------------> hai cambiato senso di direzione');
+      console.log('-----------------------------------------------------> hai invertito direzione scorrimento');
       if (prevDirection === 'backward') {
         console.log('>>> ho impostato come indice ' + (prevPokeIndex + 1));
         return (prevPokeIndex +1)
       } else if (prevDirection === 'forward') {
-        console.log('>>> ho impostato come indice ' + (prevPokeIndex));
+        console.log('>>> ho impostato come indice ' + (prevPokeIndex -1));
         return (prevPokeIndex -1)
       }
     } else {
@@ -128,7 +128,6 @@ const pkmonObjBuilder = async (number) => {
     let newBasket = [];
     let basketDepth = perPage
     let currentIndex = adjustIndex(direction, direction !== way ? way : null)
-    //setPrevPokeIndex(currentIndex)
     console.log('inizio con indice : ' + currentIndex)
     console.log('loadPkmon sto facendo way      : ' + direction)
     while (newBasket.length < basketDepth ) {
@@ -152,19 +151,15 @@ const pkmonObjBuilder = async (number) => {
         }
       }
     }
-    //setPokeIndex(currentIndex);
+    setPrevPokeIndex(newBasket[0].number-1)
+    setPokeIndex(currentIndex)
+    console.log('impostato pokeIndex       : ' + currentIndex)
     console.log('finisco con indice: ' + currentIndex)
     console.log('impostato prevPokeIndex   : ' + pokeIndex)
-    console.log('impostato pokeIndex       : ' + currentIndex)
-    console.log('====================================')
     setTimeout(() => {setLoad(0.5)}, 400)
     if (direction === "backward") {
-      setPrevPokeIndex((newBasket[0].number));////
-      setPokeIndex((newBasket[perPage-1].number));////
       return reverseArray(newBasket)
     } else{
-      setPrevPokeIndex((newBasket[0].number));////
-      setPokeIndex((newBasket[perPage-1].number));////
       return newBasket
     }
   };
