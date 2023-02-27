@@ -66,7 +66,7 @@ const GenDashboard = ({ skipToGen }) => {
       <GenButton
         key={10}
         btnText='  special  '
-        GenStartAt= {1008}
+        GenStartAt= {1250} //1008
         skipToGen={skipToGen}
       />
     </div>

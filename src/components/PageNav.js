@@ -1,7 +1,7 @@
 import React from 'react';
 import Tilt from 'react-parallax-tilt';
 
-const PageNav = ({ changePage, direction, pokeIndex, ceil }) => {
+const PageNav = ({ changePage, direction }) => {
   let position;
   let going;
   if (direction === 'next') {
@@ -36,7 +36,6 @@ const PageNav = ({ changePage, direction, pokeIndex, ceil }) => {
       }}
     >
       <button
-        disabled={(pokeIndex < 13 && direction === 'prev') || (pokeIndex > ceil && direction === 'next')}// BANA
         onClick={changePage}
         way={going}
         className= 'fw8 bw0 grow'

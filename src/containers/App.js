@@ -12,9 +12,10 @@ function App() {
   const [ viewMode, setViewMode ] = useState('artwork');
   const [ way, setWay ] = useState('forward');
   const [ pokeIndex, setPokeIndex ] = useState(0);
-  const [ prevPokeIndex, setPrevPokeIndex ] = useState(null);
+  const [ prevPokeIndex, setPrevPokeIndex ] = useState(0);
   const [ load, setLoad ] = useState(0.5);
   const [ filters, setFilters] = useState([]);
+  const [ tremarella, setTremarella ] = useState('rotate(0deg)');
 
   const perPage = 12
 
@@ -26,6 +27,12 @@ function App() {
     appStartUp();
   }, [filters])
   
+  function rotateRandom() { 
+    const randomValue = Math.floor(Math.random() * 5) - 2;
+    return `rotate(${randomValue}deg)`;
+  }
+  
+
   const createOrderedArray = () => {
     var array1 = [];
     var array2 = [];
@@ -46,7 +53,7 @@ function App() {
 
   let orderedArray = createOrderedArray();
 
-  let ceil = orderedArray.length - perPage
+  let ceil = orderedArray.length
 
   const pokeNumberAtIndex = (index) => {
     return orderedArray[index];
@@ -98,78 +105,202 @@ function App() {
     return genIndex
   };
 
-const pkmonObjBuilder = async (number) => {
-  const res = await fetch(`https://pokeapi.co/api/v2/pokemon/${number}`);
-  const obj = await res.json();
-  const newPkmon = {
-    number: obj.id,
-    name: obj.name,
-    type01: obj.types[0].type.name,
-    type02: obj.types[1] ? obj.types[1].type.name : '',
-    height: obj.height,
-    weight: obj.weight,
-    offArt: obj.sprites.other['official-artwork'].front_default,
-    sprite: obj.sprites.front_default
+  const pkmonObjBuilder = async (number) => {
+    const res = await fetch(`https://pokeapi.co/api/v2/pokemon/${number}`);
+    const obj = await res.json();
+    const newPkmon = {
+      number: obj.id,
+      name: obj.name,
+      type01: obj.types[0].type.name,
+      type02: obj.types[1] ? obj.types[1].type.name : '',
+      height: obj.height,
+      weight: obj.weight,
+      offArt: obj.sprites.other['official-artwork'].front_default,
+      sprite: obj.sprites.front_default
+    };
+    return newPkmon;
   };
-  return newPkmon;
-};
 
   const adjustIndex = (direction, prevDirection) => {
-    if (prevDirection !== null && prevDirection !== direction) {
-      if (prevDirection === 'backward') {
-        return (prevPokeIndex + 1)
-      } else if (prevDirection === 'forward') {
-        return (prevPokeIndex - 1)
-      }
-    } else {
-      return pokeIndex 
+  if (prevDirection !== null && prevDirection !== direction) {
+    if (prevDirection === 'backward') {
+      console.log('sei passato da backward a forward')
+      return (prevPokeIndex + 1)
+    } else if (prevDirection === 'forward') {
+      console.log('sei passato da forward a backward')
+      return (prevPokeIndex - 1)
     }
-  };
+  } else {
+    return pokeIndex 
+  }
+};
   
-  const loadPkmon = async (direction, index = null) => {
-    let carico = 0;
-    let newBasket = [];
-    let indexFirstEntry = -1;
-    let basketDepth = perPage;
-    let currentIndex;
-    index === null ? currentIndex = adjustIndex(direction, direction !== way ? way : null) : currentIndex = index;
+const loadPkmon = async (direction, index = null) => {
+  let carico = 0;
+  let newBasket = [];
+  let indexFirstEntry = -1;
+  let basketDepth = perPage;
+  let currentIndex;
+  index === null ? currentIndex = adjustIndex(direction, direction !== way ? way : null) : currentIndex = index;
+
+  console.log('questo è il prevIndex :' + prevPokeIndex)
+  console.log('inizio il ciclo con l\'indice :' + currentIndex)
+  console.log('inizio il ciclo con direzione  :' + direction)
+
+  try {
     while (newBasket.length < basketDepth ) {
-      let pokemonNr = pokeNumberAtIndex(currentIndex)
-      let newPkmon = await pkmonObjBuilder(pokemonNr)
-      console.log('sto facendo il pokemon ' + newPkmon.name + ' ' + newPkmon.number)
-      if (filters.length === 0 || filters.some(filter => newPkmon.type01 === filter || newPkmon.type02 === filter)) {
-        if (indexFirstEntry === -1) {
-          indexFirstEntry = currentIndex;
+      if (currentIndex < 0) {
+        // codice per gestire il caso in cui currentIndex diventa minore di 0
+        console.log('currentIndex è diventato minore di 0');
+        
+        direction = 'forward';
+        carico = 0;
+        newBasket = [];
+        indexFirstEntry = -1;
+        currentIndex = 0;
+
+
+
+        let pokemonNr = pokeNumberAtIndex(currentIndex)
+        let newPkmon = await pkmonObjBuilder(pokemonNr)
+
+        console.log('sto facendo il pokemon numero: ' + newPkmon.number + ' riparto da capo')
+        setTremarella(rotateRandom(newPkmon.number))
+        if (filters.length === 0 || filters.some(filter => newPkmon.type01 === filter || newPkmon.type02 === filter)) {
+          if (indexFirstEntry === -1) {
+            indexFirstEntry = currentIndex;
+          }
+          newBasket.push(newPkmon);
+          if (direction === 'forward') {
+            currentIndex++;
+          } else if (direction === 'backward') {
+            currentIndex--;
+          }
+          carico++;
+          setLoad((carico/basketDepth)*100)
+        } else {
+          if (direction === 'forward') {
+            currentIndex++;
+          } else if (direction === 'backward') {
+            currentIndex--;
+          }
         }
-        newBasket.push(newPkmon);
-        if (direction === "forward") {
-          currentIndex++;
-        } else if (direction === "backward") {
-          currentIndex--;
+
+        setWay('forward')
+
+
+      } else if (currentIndex > ceil -1) {
+        // codice per gestire il caso in cui currentIndex diventa maggiore di 1200
+        console.log('currentIndex è diventato maggiore di ' + currentIndex);
+
+        direction = 'backward';
+        carico = 0;
+        newBasket = [];
+        indexFirstEntry = -1;
+        currentIndex = ceil - 1;
+
+        let pokemonNr = pokeNumberAtIndex(currentIndex)
+        let newPkmon = await pkmonObjBuilder(pokemonNr)
+
+        console.log('sto facendo il pokemon numero: ' + newPkmon.number + ' riparto dalla fine')
+        setTremarella(rotateRandom(newPkmon.number))
+        if (filters.length === 0 || filters.some(filter => newPkmon.type01 === filter || newPkmon.type02 === filter)) {
+          if (indexFirstEntry === -1) {
+            indexFirstEntry = currentIndex;
+          }
+          newBasket.push(newPkmon);
+          if (direction === 'forward') {
+            currentIndex++;
+          } else if (direction === 'backward') {
+            currentIndex--;
+          }
+          carico++;
+          setLoad((carico/basketDepth)*100)
+        } else {
+          if (direction === 'forward') {
+            currentIndex++;
+          } else if (direction === 'backward') {
+            currentIndex--;
+          }
         }
-        carico++;
-        setLoad((carico/basketDepth)*100)
+
+        setWay('backward')
+
+
+
       } else {
-        if (direction === "forward") {
-          currentIndex++;
-        } else if (direction === "backward") {
-          currentIndex--;
+        let pokemonNr = pokeNumberAtIndex(currentIndex)
+        let newPkmon = await pkmonObjBuilder(pokemonNr)
+
+        console.log('sto facendo il pokemon numero: ' + newPkmon.number + ' normal')
+        setTremarella(rotateRandom(newPkmon.number))
+        if (filters.length === 0 || filters.some(filter => newPkmon.type01 === filter || newPkmon.type02 === filter)) {
+          if (indexFirstEntry === -1) {
+            indexFirstEntry = currentIndex;
+          }
+          newBasket.push(newPkmon);
+          if (direction === 'forward') {
+            currentIndex++;
+          } else if (direction === 'backward') {
+            currentIndex--;
+          }
+          carico++;
+          setLoad((carico/basketDepth)*100)
+        } else {
+          if (direction === 'forward') {
+            currentIndex++;
+          } else if (direction === 'backward') {
+            currentIndex--;
+          }
         }
       }
     }
     setPrevPokeIndex(indexFirstEntry)
-    setPokeIndex(currentIndex > (ceil) ? (ceil) : currentIndex)
+    console.log('ho settato PrevPokeIndex: ' + indexFirstEntry)
+    
+    setPokeIndex(currentIndex)
+    console.log('ho settato PokeIndex    : ' + currentIndex)
+    console.log('==================================================')
+    setTremarella('rotate(0deg)')
     setTimeout(() => {setLoad(0.5)}, 440)
-    if (direction === "backward") {
+    if (direction === 'backward') {
       return reverseArray(newBasket)
     } else{
       return newBasket
     }
-  };
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
   const updateCardList = async (event) => {
     if (event.target.getAttribute('gen') != null) {
-      const workingIndex = goToGen(event);
+      const workingIndex = await goToGen(event);
       let list = await loadPkmon('forward', workingIndex);
       setDisplayedPkmon(list);
     } else if (event.target.getAttribute('filter') != null || event.target.getAttribute('way') != null) {
@@ -191,6 +322,7 @@ const pkmonObjBuilder = async (number) => {
               alt={`Pokedex`}
               id= 'pokedex'
               style={{
+                transform: tremarella,
                 maxWidth: '400px',
                 height: 'auto',
                 marginTop: '-12px',
@@ -234,20 +366,19 @@ const pkmonObjBuilder = async (number) => {
       </div>
       <LoadingBar loadStatus={load} way={way}/>
       <div className = 'flex justify-center items-center'>
-        <PageNav
+        {pokeIndex !== 12 && pokeIndex !== -1 && prevPokeIndex !== 0 && <PageNav
           pokeIndex={pokeIndex}
           changePage={updateCardList}
           direction='prev'
-        />
+        />}
         <div style={{ width: '94%', margin: '0px' }}>
           <CardList  pkmonArray={displayedPkmon} viewMode={viewMode}/>
         </div>
-        <PageNav
-          ceil={ceil}
+        {pokeIndex !== (ceil - perPage) && pokeIndex !== (ceil + 1) && <PageNav
           pokeIndex={pokeIndex}
           changePage={updateCardList}
           direction='next'
-        />
+        />}
       </div>
     </div>
   );
