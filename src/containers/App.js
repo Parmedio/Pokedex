@@ -6,6 +6,7 @@ import FilterDashboard from '../components/FilterDashboard';
 import LoadingBar from '../components/LoadingBar';
 import '../index.css';
 import Switch01 from '../components/Switch01.js'
+import Tilt from 'react-parallax-tilt';
 
 function App() {    
   const [ displayedPkmon, setDisplayedPkmon ] = useState([]);
@@ -15,6 +16,7 @@ function App() {
   const [ prevPokeIndex, setPrevPokeIndex ] = useState(0);
   const [ load, setLoad ] = useState(0.5);
   const [ filters, setFilters] = useState([]);
+
   const [ tremarella, setTremarella ] = useState('rotate(0deg)');
 
   const perPage = 12
@@ -31,7 +33,15 @@ function App() {
     const randomValue = Math.floor(Math.random() * 5) - 2;
     return `rotate(${randomValue}deg)`;
   }
+
+  function rotateImage(degrees) {
+    const radians = degrees * (Math.PI / 180);
+    const cos = Math.cos(radians);
+    const sin = Math.sin(radians);
+    return `matrix(${cos}, 0, ${-sin}, 0, 1, 0, ${sin}, 0, ${cos})`;
+  }
   
+
 
   const createOrderedArray = () => {
     var array1 = [];
@@ -234,6 +244,7 @@ const loadPkmon = async (direction, index = null) => {
 
         console.log('sto facendo il pokemon numero: ' + newPkmon.number + ' normal')
         setTremarella(rotateRandom(newPkmon.number))
+        console.log(rotateImage(newPkmon.number))
         if (filters.length === 0 || filters.some(filter => newPkmon.type01 === filter || newPkmon.type02 === filter)) {
           if (indexFirstEntry === -1) {
             indexFirstEntry = currentIndex;
@@ -315,7 +326,7 @@ const loadPkmon = async (direction, index = null) => {
       <div className='flex justify-center'>
         <div style={{ width: '94%' }} className = 'flex justify-between items-center mv1'>
 
-        
+        <Tilt transitionSpeed='800' glareEnable={true} glareMaxOpacity={1} glarePosition='all'>
           <div style={{ height: '86px', overflow: 'hidden' }}>
             <img 
               src={'https://1.bp.blogspot.com/-0V4itR_v87M/UtsCF-ehNYI/AAAAAAAABjU/UEQ5Jiy_85o/s1600/pokedex-3d-logo.png'}
@@ -332,7 +343,7 @@ const loadPkmon = async (direction, index = null) => {
               }}
             />
           </div>
-
+        </Tilt>
 
           {/* <div>
           <p> pos {pos}</p>
